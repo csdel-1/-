@@ -1,0 +1,326 @@
+/* ==========================================
+   성공사례 페이지 전용 스타일
+   ========================================== */
+
+/* ── 필터 바 ── */
+.cases-filter-bar {
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+  padding: 20px 0;
+  position: sticky;
+  top: calc(var(--header-top-h) + var(--header-h));
+  z-index: 100;
+  box-shadow: var(--shadow-sm);
+}
+.filter-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.filter-btns {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.filter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 22px;
+  border-radius: 30px;
+  border: 1.5px solid var(--border);
+  font-size: .88rem;
+  font-weight: 600;
+  color: var(--text-mid);
+  background: #fff;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  font-family: inherit;
+}
+.filter-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+.filter-btn.active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+}
+.filter-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,.25);
+  border-radius: 10px;
+  padding: 1px 7px;
+  font-size: .78rem;
+  font-weight: 700;
+}
+.filter-btn:not(.active) .filter-count {
+  background: var(--bg-light);
+  color: var(--text-light);
+}
+
+/* 요약 통계 */
+.cases-summary-stats {
+  display: flex;
+  gap: 28px;
+}
+.cs-stat {
+  text-align: center;
+}
+.cs-stat strong {
+  display: block;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--primary-dark);
+  line-height: 1.2;
+}
+.cs-stat span {
+  font-size: .75rem;
+  color: var(--text-light);
+}
+
+/* ── 메인 그리드 ── */
+.cases-main {
+  background: var(--bg-light);
+}
+.cases-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+/* ── 사례 카드 ── */
+.case-story-card {
+  background: #fff;
+  border-radius: var(--radius-md);
+  padding: 28px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.case-story-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+/* 카드 헤더 */
+.cs-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.cs-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 14px;
+  border-radius: 20px;
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .5px;
+}
+.cs-badge.rehab {
+  background: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
+}
+.cs-badge.bankruptcy {
+  background: #fff7ed;
+  color: #c2410c;
+  border: 1px solid #fed7aa;
+}
+.cs-date {
+  font-size: .78rem;
+  color: var(--text-light);
+}
+
+/* 제목 */
+.cs-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  line-height: 1.5;
+  flex-shrink: 0;
+}
+
+/* 스토리 본문 */
+.cs-story {
+  font-size: .875rem;
+  color: var(--text-mid);
+  line-height: 1.8;
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* 결과 박스 */
+.cs-result {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--bg-light);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+}
+.cs-result-item {
+  flex: 1;
+  text-align: center;
+}
+.cs-label {
+  display: block;
+  font-size: .72rem;
+  color: var(--text-light);
+  margin-bottom: 4px;
+}
+.cs-result-item.before strong {
+  font-size: .98rem;
+  font-weight: 800;
+  color: #ef4444;
+}
+.cs-result-item.after strong {
+  font-size: .98rem;
+  font-weight: 800;
+  color: #16a34a;
+}
+.cs-arrow {
+  color: var(--accent);
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+/* 카드 하단 */
+.cs-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  margin-top: auto;
+}
+.cs-author {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.cs-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .9rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.cs-author strong {
+  display: block;
+  font-size: .85rem;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+.cs-author span {
+  font-size: .75rem;
+  color: var(--text-light);
+}
+.cs-stars {
+  font-size: .88rem;
+  color: #f59e0b;
+  letter-spacing: 1px;
+  flex-shrink: 0;
+}
+
+/* ── CTA 섹션 ── */
+.cases-cta-section {
+  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+  padding: 72px 0;
+}
+.cases-cta-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+.cases-cta-text h2 {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 12px;
+}
+.cases-cta-text p {
+  font-size: 1rem;
+  color: rgba(255,255,255,.8);
+  line-height: 1.8;
+}
+.cases-cta-btns {
+  display: flex;
+  gap: 16px;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+/* ── fade-up 애니메이션 ── */
+.fade-up {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── 반응형 ── */
+@media (max-width: 1100px) {
+  .cases-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 768px) {
+  .cases-filter-bar {
+    position: static;
+  }
+  .filter-wrap {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .cases-summary-stats {
+    gap: 20px;
+  }
+  .cases-cards-grid {
+    grid-template-columns: 1fr;
+  }
+  .cases-cta-inner {
+    flex-direction: column;
+    text-align: center;
+  }
+  .cases-cta-btns {
+    justify-content: center;
+  }
+  .cases-cta-text h2 {
+    font-size: 1.6rem;
+  }
+}
+@media (max-width: 480px) {
+  .case-story-card {
+    padding: 20px;
+  }
+  .cs-result {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .cs-arrow {
+    transform: rotate(90deg);
+  }
+}
