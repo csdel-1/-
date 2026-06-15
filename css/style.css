@@ -755,19 +755,25 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   /* 드롭다운: static으로 흐름 안에 배치 → 다른 메뉴를 밀어냄 */
 .dropdown {
     position: static !important;
-    display: none !important;
-    height: auto !important;
-    opacity: 1; 
-    visibility: visible; 
-    transform: none !important;
-    box-shadow: none; 
+    display: block !important; /* 항상 block 상태 유지 */
+    max-height: 0; /* 처음엔 높이가 0이라 안 보임 */
+    overflow: hidden; /* 영역을 벗어나는 내용은 숨김 */
+    transition: max-height 0.3s ease-out; /* 부드럽게 열리고 닫히는 애니메이션 */
+    /* 아래는 디자인 요소 */
     border-top: none;
     border-left: 3px solid var(--primary);
-    margin: 0; 
-    padding: 0;
+    margin: 0; padding: 0;
     background: #f8f9ff;
     width: 100%;
+    box-shadow: none;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
   }
+  
+  /* 불필요해진 코드 삭제 가능 */
+  /* .nav-item.open .dropdown { ... } */ 
+}
   .nav-item.open .dropdown {
     display: block !important;
   }
