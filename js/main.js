@@ -162,9 +162,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* ── 8. 스크롤 페이드-업 애니메이션 ── */
   const fadeEls = document.querySelectorAll(
-    '.service-card, .why-card, .case-card, .review-card, .process-step, .stat-item'
+    '.service-card, .why-card, .case-card, .review-card, .process-step, .stat-item, .fade-up'
   );
-  fadeEls.forEach(el => el.classList.add('fade-up'));
 
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => {
@@ -173,8 +172,18 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.unobserve(e.target);
       }
     });
-  }, { threshold: 0.12 });
-  fadeEls.forEach(el => observer.observe(el));
+  }, { threshold: 0, rootMargin: '0px 0px -20px 0px' });
+
+  fadeEls.forEach(el => {
+    el.classList.add('fade-up');
+    // 이미 뷰포트 안에 있는 요소는 즉시 표시
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      el.classList.add('visible');
+    } else {
+      observer.observe(el);
+    }
+  });
 
   /* ── 9. 현재 페이지 네비 활성화 ── */
   const path = window.location.pathname.split('/').pop() || 'index.html';

@@ -273,8 +273,8 @@
 /* ── fade-up 애니메이션 ── */
 .fade-up {
   opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  transform: translateY(16px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
 }
 .fade-up.visible {
   opacity: 1;
