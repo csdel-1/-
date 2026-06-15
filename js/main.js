@@ -25,13 +25,37 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.style.overflow = navMenu.classList.contains('open') ? 'hidden' : '';
   });
 
-  // 모바일 드롭다운 토글
+ // 모바일 드롭다운 토글 (아코디언 방식)
   document.querySelectorAll('.nav-item.has-dropdown > a').forEach(link => {
     link.addEventListener('click', (e) => {
       if (window.innerWidth <= 900) {
         e.preventDefault();
         const parent = link.closest('.nav-item');
-        parent.classList.toggle('open');
+        const dropdown = parent.querySelector('.dropdown');
+        
+        // 현재 열려있는지 확인
+        const isOpen = parent.classList.contains('open');
+
+        // 다른 열려있는 드롭다운 닫기 (선택 사항, 원치 않으면 삭제 가능)
+        document.querySelectorAll('.nav-item.has-dropdown.open').forEach(openedItem => {
+            if(openedItem !== parent) {
+                 openedItem.classList.remove('open');
+                 const openedDropdown = openedItem.querySelector('.dropdown');
+                 if(openedDropdown) {
+                    openedDropdown.style.maxHeight = null;
+                 }
+            }
+        });
+
+        if (!isOpen) {
+          // 닫혀있으면 열기
+          parent.classList.add('open');
+          dropdown.style.maxHeight = dropdown.scrollHeight + "px"; 
+        } else {
+          // 열려있으면 닫기
+          parent.classList.remove('open');
+          dropdown.style.maxHeight = null;
+        }
       }
     });
   });
