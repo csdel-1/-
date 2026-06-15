@@ -812,3 +812,25 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .fade-up:nth-child(2) { transition-delay: .05s; }
 .fade-up:nth-child(3) { transition-delay: .1s; }
 .fade-up:nth-child(4) { transition-delay: .15s; }
+@media (max-width: 900px) {
+  .main-nav .nav-item {
+    height: auto !important;
+  }
+  .main-nav .nav-item > a {
+    height: auto !important;
+  }
+  .main-nav .dropdown {
+    position: static !important;
+    height: auto !important;
+    transform: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    margin: 0 !important;
+  }
+  /* 메뉴가 열렸을 때 무조건 블록 형태로 밀어내기 */
+  .main-nav .nav-item.open .dropdown,
+  .main-nav .nav-item.active .dropdown {
+    display: block !important;
+    position: static !important;
+  }
+}
