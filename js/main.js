@@ -51,6 +51,12 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentSlide = 0;
   let sliderInterval;
 
+  // 첫 슬라이드 즉시 active (CSS :first-child와 중복 적용으로 확실히 표시)
+  if (slides.length > 0) {
+    slides[0].classList.add('active');
+    dots[0]?.classList.add('active');
+  }
+
   const goToSlide = (index) => {
     slides[currentSlide]?.classList.remove('active');
     dots[currentSlide]?.classList.remove('active');
