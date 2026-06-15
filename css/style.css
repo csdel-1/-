@@ -203,9 +203,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   transition: all var(--transition);
   z-index: 100;
 }
-@media (min-width: 901px) {
-  .nav-item:hover .dropdown {
-    opacity: 1; visibility: visible; transform: translateY(0);
+.nav-item:hover .dropdown {
+  opacity: 1; visibility: visible; transform: translateY(0);
 }
 .dropdown li a {
   display: block; padding: 12px 20px;
