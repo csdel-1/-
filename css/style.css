@@ -841,3 +841,19 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     position: static !important;
   }
 }
+/* ==========================================
+   📱 모바일 1단 배열 강제 적용 (텍스트 길어짐 방지)
+   ========================================== */
+@media (max-width: 768px) {
+  /* 1. 빠른 상담 바: 가로 100%로 꽉 채워서 한 줄씩 위아래로 배치 */
+  .quick-item {
+    width: 100% !important;
+    border-right: none !important; /* 모바일은 오른쪽 선 대신 */
+    border-bottom: 1px solid rgba(255,255,255,.1) !important; /* 아래쪽 선을 씀 */
+  }
+
+  /* 2. 주요 업무 분야 카드: 2칸(1fr 1fr) 대신 1칸(1fr)으로 큼직하게 배치 */
+  .services-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
