@@ -725,6 +725,9 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 
 @media (max-width: 900px) {
+  /* 👇 모바일에서 남색 바 통째로 숨기기 (이 두 줄을 무조건 추가!) */
+  .header-top { display: none !important; }
+  .hero-section { margin-top: var(--header-h) !important; }
   .stats-row { grid-template-columns: repeat(2, 1fr); }
   .cases-grid { grid-template-columns: repeat(2, 1fr); }
   .process-steps { flex-direction: column; gap: 16px; }
