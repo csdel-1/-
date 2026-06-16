@@ -874,3 +874,16 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     min-width: 100% !important;
   }
 }
+/* 👇 고객 후기 화면 잘림 강제 해결 코드 추가 */
+  .reviews-slider {
+    margin: 0 !important; /* 화면 밖으로 삐져나가는 음수 마진 제거 */
+  }
+  .reviews-track {
+    padding: 0 0 12px 0 !important; /* 불필요한 좌우 패딩 제거 */
+  }
+  .reviews-track .review-card {
+    min-width: 100% !important; /* 카드를 화면 너비에 100% 딱 맞춤 */
+    width: 100% !important;
+    white-space: normal !important; /* 글자가 카드 안에서 자연스럽게 줄바꿈되도록 */
+  }
+}
