@@ -928,20 +928,25 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     margin: 0 !important; /* 불필요한 여백 제거 */
   }
 }
-.footer-main {
-    padding: 50px 24px 30px !important; /* 양옆에 24px 여백을 주어 글자가 화면에 답답하게 붙지 않게 숨통 트기 */
-  }
-  .footer-grid {
-    grid-template-columns: 1fr !important; /* 1줄로 길게 배치 */
-    gap: 40px !important; /* 각 섹션(업무분야, 바로가기 등) 사이의 간격을 넓게 띄우기 */
-    text-align: left !important; /* 아이콘과 글자 배열을 위해 깔끔한 좌측 정렬 강제 */
-  }
-  .footer-contact-list li {
-    justify-content: flex-start !important; /* 연락처 아이콘과 글자도 삐뚤어지지 않게 좌측으로 딱 맞춤 */
+/* 👇 푸터 모바일 완벽 중앙 정렬 (이 부분 덮어쓰기) */
+  .footer-main {
+    padding: 50px 20px 30px !important;
   }
   
-  /* 화면 좌측 상단에 덩그러니 남은 쓸모없는 어두운 아이콘 숨기기 */
-  .footer-brand .footer-social {
-    display: none !important; 
+  /* 1. 전체를 1줄로 만들고 가운데 정렬 */
+  .footer-grid {
+    grid-template-columns: 1fr !important;
+    gap: 40px !important;
+    text-align: center !important; 
+  }
+  
+  /* 2. 연락처 아이콘(전화기, 위치 등)도 글자와 함께 가운데로 딱 맞추기 */
+  .footer-contact-list li {
+    justify-content: center !important;
+  }
+  
+  /* 3. 상단에 지저분하게 남은 어두운 말풍선 아이콘 구역 완전히 숨기기 */
+  .footer-brand {
+    display: none !important;
   }
 }
