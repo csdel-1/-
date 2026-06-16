@@ -898,3 +898,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     width: 100% !important;
     justify-content: center !important; /* 글자 가운데 정렬 */
   }
+.pc-only {
+    display: none !important; /* 모바일에서는 <br> 태그 숨기기 */
+  }
+}
