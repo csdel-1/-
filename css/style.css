@@ -928,18 +928,20 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     margin: 0 !important; /* 불필요한 여백 제거 */
   }
 }
-/* 👇 푸터 모바일 1열 정렬 및 여백 확보 */
+.footer-main {
+    padding: 50px 24px 30px !important; /* 양옆에 24px 여백을 주어 글자가 화면에 답답하게 붙지 않게 숨통 트기 */
+  }
   .footer-grid {
-    grid-template-columns: 1fr !important; /* 무조건 1칸으로! */
-    gap: 32px !important; /* 각 구역 사이의 숨통 트여주기 */
-    text-align: center !important; /* (선택) 모바일은 가운데 정렬이 더 깔끔해 보일 수 있어! */
+    grid-template-columns: 1fr !important; /* 1줄로 길게 배치 */
+    gap: 40px !important; /* 각 섹션(업무분야, 바로가기 등) 사이의 간격을 넓게 띄우기 */
+    text-align: left !important; /* 아이콘과 글자 배열을 위해 깔끔한 좌측 정렬 강제 */
+  }
+  .footer-contact-list li {
+    justify-content: flex-start !important; /* 연락처 아이콘과 글자도 삐뚤어지지 않게 좌측으로 딱 맞춤 */
   }
   
-  /* 가운데 정렬을 할 경우 연락처 아이콘 정렬도 맞춰주기 */
-  .footer-contact-list li {
-    justify-content: center; 
-  }
-  .footer-social {
-    justify-content: center;
+  /* 화면 좌측 상단에 덩그러니 남은 쓸모없는 어두운 아이콘 숨기기 */
+  .footer-brand .footer-social {
+    display: none !important; 
   }
 }
