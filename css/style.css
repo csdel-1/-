@@ -54,6 +54,9 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .bg-light { background: var(--bg-light); }
 
 /* ── 공통 버튼 ── */
+.keep-all {
+  word-break: keep-all; /* 단어 단위로 묶어서 줄바꿈 (한글 타이포그래피 필수!) */
+}
 .btn-primary {
   display: inline-flex; align-items: center; gap: 8px;
   background: var(--accent);
