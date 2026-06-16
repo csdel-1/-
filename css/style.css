@@ -928,24 +928,47 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     margin: 0 !important; /* 불필요한 여백 제거 */
   }
 }
-/* 👇 푸터 모바일 완벽 중앙 정렬 (이 부분 덮어쓰기) */
-  .footer-main {
-    padding: 50px 20px 30px !important;
+.footer-main {
+    /* 우측 플로팅 버튼에 가려지지 않도록 오른쪽 여백(80px)을 크게 확보 */
+    padding: 50px 80px 40px 24px !important; 
   }
   
-  /* 1. 전체를 1줄로 만들고 가운데 정렬 */
   .footer-grid {
     grid-template-columns: 1fr !important;
-    gap: 40px !important;
-    text-align: center !important; 
+    gap: 36px !important; /* 섹션 사이 간격을 시원하게 */
+    text-align: left !important; /* 좌측 정렬 강제 */
   }
-  
-  /* 2. 연락처 아이콘(전화기, 위치 등)도 글자와 함께 가운데로 딱 맞추기 */
+
+  /* 각 섹션의 제목(업무 분야, 바로가기 등) 밑줄 디자인 다듬기 */
+  .footer-nav-col h4, .footer-contact-col h4 {
+    font-size: 1rem !important;
+    padding-bottom: 12px !important;
+    margin-bottom: 16px !important;
+    border-bottom: 1px solid rgba(255,255,255,0.1) !important;
+  }
+
+  /* 메뉴 리스트 간격 띄우기 */
+  .footer-nav-col ul li {
+    margin-bottom: 14px !important;
+  }
+
+  /* 연락처 아이콘과 텍스트의 세로 시작선 완벽하게 맞추기 */
   .footer-contact-list li {
-    justify-content: center !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    gap: 12px !important;
+    margin-bottom: 16px !important;
   }
   
-  /* 3. 상단에 지저분하게 남은 어두운 말풍선 아이콘 구역 완전히 숨기기 */
+  /* 아이콘들이 차지하는 너비를 고정해서 뒤에 오는 글자 줄 맞추기 */
+  .footer-contact-list i {
+    width: 20px !important;
+    text-align: center !important;
+    margin-top: 4px !important; /* 텍스트 높이와 중앙 맞추기 */
+  }
+
+  /* 필요 없는 상단 찌꺼기 아이콘 숨기기 */
   .footer-brand {
     display: none !important;
   }
