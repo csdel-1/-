@@ -887,3 +887,14 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     white-space: normal !important; /* 글자가 카드 안에서 자연스럽게 줄바꿈되도록 */
   }
 }
+/* CTA 버튼 크기 똑같이 맞추기 */
+  .cta-actions {
+    display: flex;
+    flex-direction: column; /* 세로로 배치 */
+    width: 100%;
+    gap: 12px; /* 버튼 사이 간격 */
+  }
+  .cta-actions .btn-white {
+    width: 100% !important;
+    justify-content: center !important; /* 글자 가운데 정렬 */
+  }
