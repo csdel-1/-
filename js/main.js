@@ -25,13 +25,37 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.style.overflow = navMenu.classList.contains('open') ? 'hidden' : '';
   });
 
-  // 모바일 드롭다운 토글
+ // 모바일 드롭다운 토글 (아코디언 방식)
   document.querySelectorAll('.nav-item.has-dropdown > a').forEach(link => {
     link.addEventListener('click', (e) => {
       if (window.innerWidth <= 900) {
         e.preventDefault();
         const parent = link.closest('.nav-item');
-        parent.classList.toggle('open');
+        const dropdown = parent.querySelector('.dropdown');
+        
+        // 현재 열려있는지 확인
+        const isOpen = parent.classList.contains('open');
+
+        // 다른 열려있는 드롭다운 닫기 (선택 사항, 원치 않으면 삭제 가능)
+        document.querySelectorAll('.nav-item.has-dropdown.open').forEach(openedItem => {
+            if(openedItem !== parent) {
+                 openedItem.classList.remove('open');
+                 const openedDropdown = openedItem.querySelector('.dropdown');
+                 if(openedDropdown) {
+                    openedDropdown.style.maxHeight = null;
+                 }
+            }
+        });
+
+        if (!isOpen) {
+          // 닫혀있으면 열기
+          parent.classList.add('open');
+          dropdown.style.maxHeight = dropdown.scrollHeight + "px"; 
+        } else {
+          // 열려있으면 닫기
+          parent.classList.remove('open');
+          dropdown.style.maxHeight = null;
+        }
       }
     });
   });
@@ -50,6 +74,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const dots    = document.querySelectorAll('.hero-dot');
   let currentSlide = 0;
   let sliderInterval;
+
+  // 첫 슬라이드 즉시 active (CSS :first-child와 중복 적용으로 확실히 표시)
+  if (slides.length > 0) {
+    slides[0].classList.add('active');
+    dots[0]?.classList.add('active');
+  }
 
   const goToSlide = (index) => {
     slides[currentSlide]?.classList.remove('active');
@@ -162,9 +192,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* ── 8. 스크롤 페이드-업 애니메이션 ── */
   const fadeEls = document.querySelectorAll(
-    '.service-card, .why-card, .case-card, .review-card, .process-step, .stat-item'
+    '.service-card, .why-card, .case-card, .review-card, .process-step, .stat-item, .fade-up'
   );
-  fadeEls.forEach(el => el.classList.add('fade-up'));
 
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => {
@@ -173,8 +202,18 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.unobserve(e.target);
       }
     });
-  }, { threshold: 0.12 });
-  fadeEls.forEach(el => observer.observe(el));
+  }, { threshold: 0, rootMargin: '0px 0px -20px 0px' });
+
+  fadeEls.forEach(el => {
+    el.classList.add('fade-up');
+    // 이미 뷰포트 안에 있는 요소는 즉시 표시
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      el.classList.add('visible');
+    } else {
+      observer.observe(el);
+    }
+  });
 
   /* ── 9. 현재 페이지 네비 활성화 ── */
   const path = window.location.pathname.split('/').pop() || 'index.html';

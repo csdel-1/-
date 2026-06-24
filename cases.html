@@ -63,21 +63,21 @@
   </header>
 
   <!-- PAGE HERO -->
-  <section class="page-hero" style="background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);">
-    <div class="container">
-      <div class="page-hero-content">
-        <span class="page-hero-label">SUCCESS CASES</span>
-        <h1>성공사례</h1>
-        <p>법무사 안상재 사무소의 실제 의뢰인들이 채무의 무게를 덜고<br />새 출발을 시작한 이야기들입니다.</p>
-      </div>
-      <nav class="breadcrumb" aria-label="breadcrumb">
-        <ol class="breadcrumb-list">
-          <li><a href="index.html">홈</a></li>
-          <li><span>성공사례</span></li>
-        </ol>
-      </nav>
+ <section class="page-hero" style="background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);">
+  <div class="container">
+    <div class="page-hero-content">
+      <span class="page-hero-label">SUCCESS CASES</span>
+      <h1>성공사례</h1>
+      <p class="keep-all">법무사 안상재 사무소의 실제 의뢰인들이 채무의 무게를 덜고<br class="pc-only" /> 새 출발을 시작한 이야기들입니다.</p>
     </div>
-  </section>
+    <nav class="breadcrumb" aria-label="breadcrumb">
+      <ol class="breadcrumb-list">
+        <li><a href="index.html">홈</a></li>
+        <li><span>성공사례</span></li>
+      </ol>
+    </nav>
+  </div>
+</section>
 
   <!-- FILTER & STATS BAR -->
   <section class="cases-filter-bar">
@@ -849,26 +849,36 @@
 
   <script src="js/main.js"></script>
   <script>
-    // 필터 기능
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    const cards = document.querySelectorAll('.case-story-card');
+    document.addEventListener('DOMContentLoaded', () => {
 
-    filterBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        filterBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
+      const cards = document.querySelectorAll('.case-story-card');
 
-        const filter = btn.dataset.filter;
-        cards.forEach(card => {
-          if (filter === 'all' || card.dataset.type === filter) {
-            card.style.display = '';
-            setTimeout(() => card.classList.add('visible'), 10);
-          } else {
-            card.style.display = 'none';
-            card.classList.remove('visible');
-          }
+      // 페이지 로드 즉시 모든 카드 표시 (fade-up 애니메이션 없이 바로 보이게)
+      cards.forEach((card, i) => {
+        setTimeout(() => card.classList.add('visible'), i * 60);
+      });
+
+      // 필터 기능
+      const filterBtns = document.querySelectorAll('.filter-btn');
+
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          filterBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+
+          const filter = btn.dataset.filter;
+          cards.forEach(card => {
+            if (filter === 'all' || card.dataset.type === filter) {
+              card.style.display = '';
+              setTimeout(() => card.classList.add('visible'), 30);
+            } else {
+              card.style.display = 'none';
+              card.classList.remove('visible');
+            }
+          });
         });
       });
+
     });
   </script>
 </body>
