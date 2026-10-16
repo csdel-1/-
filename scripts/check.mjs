@@ -5,6 +5,7 @@ import {home} from '../src/home.mjs';
 import {pages} from '../src/content.mjs';
 import {config} from '../src/site-config.mjs';
 import {mapEmbed, naverDirections, naverSearch} from '../src/maps.mjs';
+import {existingCases} from '../src/cases-data.mjs';
 
 // Inspect generated output, including references across pages, without dependencies.
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -141,6 +142,15 @@ for (const [file,{html}] of docs) {
   for (const [name,token] of [['naver-site-verification',config.naverVerification],['google-site-verification',config.googleVerification]]) {const values = meta(html,name);expect(token ? values.length === 1 && values[0].content === token : values.length === 0,file,`${name} 실제 설정과 출력 불일치`);}
 }
 const location = docs.get('location.html');
+const caseHtml = docs.get('cases.html')?.html || '';
+expect(existingCases.length === 20 && existingCases.filter(c=>c.type==='rehab').length === 12 && existingCases.filter(c=>c.type==='bankruptcy').length === 8,'cases.html','기존 사례 20건(회생12·파산8) 누락 확인');
+expect(all(caseHtml, /<article\b[^>]*data-case-type=/g).length === 20,'cases.html','정적 HTML에 기존 사례 20건 필요');
+const escapeCase = text=>String(text).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
+for(const entry of existingCases){
+  const article = caseHtml.match(new RegExp(`<article[^>]*id="${entry.id}"[^>]*>([\\s\\S]*?)</article>`))?.[1] || '';
+  for(const key of ['title','story','debtBefore','result','debtBeforeLabel','resultLabel','date','author','region','status']) expect(article.includes(escapeCase(entry[key])),'cases.html',`${entry.id} 원문 ${key} 누락·변경 확인`);
+}
+for(const [file,{html}] of docs)expect(!/토요일|주말/.test(html),file,'사용자가 제외한 주말 안내 재등장');
 expect(location?.ids.has('naver-map') && location?.ids.has('map-status') && /https:\/\/map\.naver\.com\/p\/search\//.test(location?.html || ''),'location.html','실제 네이버 주소 검색·지도 상태 영역 없음');
 for (const file of ['index.html','location.html']) {
   const html = docs.get(file)?.html || '';
