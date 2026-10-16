@@ -30,3 +30,22 @@ document.querySelectorAll('[data-copy-address]').forEach(button=>button.addEvent
   try{await navigator.clipboard.writeText('대전광역시 서구 둔산중로78번길 40 봉화빌딩 402호');if(status)status.textContent='주소를 복사했습니다.';}
   catch{if(status)status.textContent='주소: 대전광역시 서구 둔산중로78번길 40 봉화빌딩 402호';}
 }));
+
+document.querySelectorAll('[data-case-browser]').forEach(browser=>{
+  const filters=browser.querySelector('.case-filters');
+  const buttons=[...browser.querySelectorAll('[data-case-filter]')];
+  const cards=[...browser.querySelectorAll('[data-case-type]')];
+  const count=browser.querySelector('.case-count');
+  filters.hidden=false;
+  buttons.forEach(button=>button.addEventListener('click',()=>{
+    const type=button.dataset.caseFilter;
+    let shown=0;
+    cards.forEach(card=>{
+      card.hidden=type!=='all'&&card.dataset.caseType!==type;
+      if(!card.hidden)shown++;
+    });
+    buttons.forEach(item=>item.setAttribute('aria-pressed',String(item===button)));
+    const name={all:'전체',rehab:'개인회생',bankruptcy:'개인파산·면책'}[type];
+    count.textContent=`${name} ${shown}건`;
+  }));
+});

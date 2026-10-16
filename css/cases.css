@@ -1,0 +1,55 @@
+.case-section{background:#f6f7fa;padding-top:60px}
+.case-filters{display:flex;flex-wrap:wrap;gap:10px;padding-bottom:26px;border-bottom:1px solid #dce2ea}
+.case-filters[hidden],.case-card[hidden]{display:none}
+.case-filters button{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:46px;padding:10px 22px;border:1px solid #ccd5e0;background:#fff;border-radius:5px;color:#334e6a;font:600 14px/1.5 var(--sans);cursor:pointer}
+.case-filters button span{font-size:12px;font-weight:500;opacity:.8}
+.case-filters button[aria-pressed=true]{color:#fff;background:#102a48;border-color:#102a48}
+.case-filters button:hover{border-color:#986e35}
+.case-filters button:focus-visible{outline:3px solid #a47b3b;outline-offset:3px}
+.case-list-heading{display:flex;justify-content:space-between;gap:15px;align-items:center;margin:22px 0;color:#607083;font-size:13px}
+.case-count{font-size:15px;color:#233e5b;font-weight:600}
+.case-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+.case-card{min-width:0;padding:30px;background:#fff;border:1px solid #dfe5ed;border-radius:8px;box-shadow:0 5px 20px #18324e04}
+.case-meta{display:flex;align-items:center;justify-content:space-between;gap:15px;font-size:13px;color:#607083;margin-bottom:20px}
+.case-category{display:inline-block;color:#815b28;background:#f6f0e6;border:1px solid #e3d5bf;padding:4px 11px;border-radius:20px;font-size:12px;font-weight:600}
+.case-card h3{font-size:21px;line-height:1.65;word-break:keep-all;overflow-wrap:anywhere;margin:0 0 25px;color:#102a48;min-height:70px}
+.case-outcome{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin:0;padding:20px;background:#f4f6f9;border-radius:5px}
+.case-outcome>div{min-width:0}
+.case-outcome>div+div{border-left:1px solid #dbe1e9;padding-left:20px}
+.case-outcome dt{font-size:12px;color:#607083;margin-bottom:9px}
+.case-outcome dd{margin:0;font-size:21px;font-weight:700;line-height:1.5;color:#29405b;overflow-wrap:anywhere}
+.case-outcome>div+div dd{color:#87612d}
+.case-details{margin-top:13px}
+.case-details summary{display:flex;align-items:center;justify-content:space-between;min-height:48px;gap:20px;padding-block:10px;font-size:14px;font-weight:600;list-style:none;cursor:pointer;color:#284764}
+.case-details summary::-webkit-details-marker{display:none}
+.case-details summary:focus-visible{outline:3px solid #a47b3b;outline-offset:3px}
+.case-details summary>span{font-size:20px;color:#8a6635}
+.case-details[open] summary>span{transform:rotate(45deg)}
+.case-story{border-top:1px solid #e1e6ed;padding-top:20px;font-size:15px;line-height:1.95;color:#52657a;word-break:keep-all;overflow-wrap:anywhere}
+.case-story p{margin:0}
+.case-story .case-author{margin-top:23px;color:#213e5d;font-size:13px;font-weight:600}
+.case-author span{color:#66788b;font-size:12px;font-weight:400}
+.case-result-note{margin-top:28px;font-size:13px;color:#607083;line-height:1.9}
+.case-next-step{display:flex;justify-content:space-between;align-items:center;gap:30px;margin-top:52px;padding:32px;background:#fff;border:1px solid #dfe5ed;border-radius:6px}
+.case-next-step h2{font-size:22px;margin:0 0 12px}
+.case-next-step p{font-size:14px;color:#607083}
+.case-next-step .button{flex-shrink:0}
+@media(max-width:760px){
+  .case-section{padding-top:38px}
+  .case-filters{gap:8px;padding-bottom:21px}
+  .case-filters button{flex:1;white-space:nowrap;padding:10px 8px;gap:6px;font-size:12px}
+  .case-filters button span{font-size:11px}
+  .case-grid{grid-template-columns:1fr;gap:17px}
+  .case-card{padding:24px 20px}
+  .case-card h3{font-size:20px;min-height:0;margin-bottom:20px}
+  .case-meta{margin-bottom:17px;font-size:12px}
+  .case-list-heading{font-size:11px}
+  .case-outcome{padding:16px 14px;gap:12px}
+  .case-outcome>div+div{padding-left:14px}
+  .case-outcome dd{font-size:19px}
+  .case-outcome dt{font-size:11px}
+  .case-story{font-size:14px;line-height:1.95}
+  .case-next-step{display:block;padding:26px 21px;margin-top:35px}
+  .case-next-step h2{font-size:21px}
+  .case-next-step .button{margin-top:23px}
+}
