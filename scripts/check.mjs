@@ -139,7 +139,7 @@ expect(!config.naverMapKeyId || Boolean(coords),'src/site-config.mjs','지도 Ke
 if (hasMap) expect(Number.isFinite(coords.lat) && Number.isFinite(coords.lng) && Math.abs(coords.lat) <= 90 && Math.abs(coords.lng) <= 180,'src/site-config.mjs','유효한 숫자형 지도 좌표 필요');
 for (const [file,{html}] of docs) {
   expect(/<script\b[^>]*src="\/js\/naver-map\.js"/.test(html) === (file === 'location.html' && hasMap),file,'지도 설정·어댑터 삽입 불일치');
-  for (const [name,token] of [['naver-site-verification',config.naverVerification],['google-site-verification',config.googleVerification]]) {const values = meta(html,name);expect(token ? values.length === 1 && values[0].content === token : values.length === 0,file,`${name} 실제 설정과 출력 불일치`);}
+  for (const [name,token] of [['naver-site-verification',config.naverVerification],['google-site-verification',config.googleVerification]]) {const tokens=[].concat(token).filter(Boolean),values=meta(html,name);expect(values.length===tokens.length && new Set(values.map(v=>v.content)).size===values.length && tokens.every(t=>values.some(v=>v.content===t)),file,`${name} 계정별 실제 설정과 출력 불일치`);}
 }
 const location = docs.get('location.html');
 const caseHtml = docs.get('cases.html')?.html || '';
