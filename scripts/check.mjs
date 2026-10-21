@@ -4,6 +4,7 @@ import {fileURLToPath} from 'node:url';
 import {home} from '../src/home.mjs';
 import {pages} from '../src/content.mjs';
 import {config} from '../src/site-config.mjs';
+import {kakao, tel} from '../src/parts.mjs';
 import {mapEmbed, naverDirections, naverSearch} from '../src/maps.mjs';
 import {existingCases} from '../src/cases-data.mjs';
 import {cases2026, caseGroups} from '../src/cases-2026.mjs';
@@ -101,6 +102,20 @@ for (const [file,{html,ids}] of docs) {
     expect(site['@id'] === config.siteUrl + '/#website' && site.publisher?.['@id'] === office['@id'],file,'WebSite 연결 오류');
     expect(page.url === canonical && page['@id'] === canonical + '#webpage' && page.name === title && page.description === description && page.inLanguage === 'ko-KR',file,'WebPage 메타데이터 불일치');
     expect(page.isPartOf?.['@id'] === site['@id'] && page.about?.['@id'] === office['@id'],file,'WebPage graph 관계 오류');
+    if (original?.updated) expect(page.dateModified === original.updated,file,'실제 페이지 수정일과 WebPage 날짜 불일치');
+    const articles = nodes('Article');
+    expect(articles.length === (original?.published ? 1 : 0),file,'발행 정보와 Article 개수 불일치');
+    if (original?.published) {
+      const article = articles[0] || {}, modified = original.updated || original.published;
+      const today = new Intl.DateTimeFormat('sv-SE',{timeZone:'Asia/Seoul'}).format(new Date());
+      for (const date of [original.published, modified]) expect(/^\d{4}-\d{2}-\d{2}$/.test(date) && !Number.isNaN(Date.parse(date)) && date <= today,file,'유효하지 않거나 미래인 콘텐츠 날짜');
+      expect(original.published <= modified && article.datePublished === original.published && article.dateModified === modified,file,'Article 발행·수정일 불일치');
+      const h1 = html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i)?.[1] || '';
+      expect(article.headline === plain(h1.replace(/<br\s*\/?>/gi,' ')),file,'Article 제목과 보이는 H1 불일치');
+      expect(article.author?.['@id'] === office['@id'] && article.publisher?.['@id'] === office['@id'] && article.mainEntityOfPage?.['@id'] === page['@id'],file,'Article 제공 주체·페이지 연결 오류');
+      const display = html.match(/<p class="page-meta">([\s\S]*?)<\/p>/)?.[1] || '';
+      expect(display.includes(`datetime="${modified}"`) && display.includes('콘텐츠 제공: 법무사 안상재 사무소'),file,'표시 날짜·제공 주체와 Article 불일치');
+    }
     expect(!graph.some(n => /Review|AggregateRating/.test(n['@type'] || '') || n.aggregateRating || n.review),file,'미검증 리뷰·평점 schema 금지');
     if (file !== 'index.html') {const crumbs = nodes('BreadcrumbList')[0]?.itemListElement;expect(nodes('BreadcrumbList').length === 1 && crumbs?.length === 2 && crumbs[0].position === 1 && crumbs[0].item === config.siteUrl + '/' && crumbs[1].position === 2 && crumbs[1].item === canonical,file,'BreadcrumbList 오류');}
     stats.schemaNodes += graph.length;
@@ -108,6 +123,15 @@ for (const [file,{html,ids}] of docs) {
 
   expect(!/<(?:form|input|textarea|select)\b/i.test(html) && !/\bonsubmit\s*=/i.test(html),file,'승인되지 않은 개인정보 접수 양식');
   expect(html.includes('tel:01064294797'),file,'실제 전화 연결 없음');
+  expect(!html.includes('${'),file,'완성되지 않은 템플릿 문자열');
+  const contactLinks = all(html,/<a\b([^>]*)>([\s\S]*?)<\/a>/gi).map(m=>({...attrs(m[1]),label:plain(m[2])}));
+  const headerContact = contactLinks.filter(a=>a.class === 'header-cta');
+  expect(headerContact.length === 1 && headerContact[0].href === kakao && headerContact[0].label.startsWith('카카오톡 문의하기'),file,'헤더는 카카오톡으로 직접 연결 필요');
+  const mobileContact = html.match(/<div class="mobile-contact"[^>]*>([\s\S]*?)<\/div>/)?.[1] || '';
+  const mobileHrefs = all(mobileContact,/<a\b[^>]*>/g).map(m=>attrs(m[0]).href);
+  expect(JSON.stringify(mobileHrefs) === JSON.stringify([tel,kakao]) && mobileContact.includes('카카오톡 문의하기'),file,'모바일 연락은 전화·카카오톡 두 가지 필요');
+  const infoLinks = contactLinks.filter(a=>a.href === '/consult.html');
+  expect(infoLinks.length === 1 && infoLinks[0].label === '상담안내',file,'상담 안내 메뉴 외 상담 유도는 전화·카카오톡 직접 연결 필요');
   for (const m of all(html,/<(?:a|img|source|script|link|iframe)\b[^>]*>/gi)) {
     const a = attrs(m[0]);
     if (a.href !== undefined) await local(a.href,file,'href');
@@ -129,6 +153,10 @@ try {
   const locs = all(sitemap,/<loc>([^<]+)<\/loc>/g).map(m => decode(m[1]));
   const expected = indexable.map(p => urlFor(p.file));
   expect(locs.length === indexable.length && new Set(locs).size === indexable.length && expected.every(u => locs.includes(u)) && locs.every(u => expected.includes(u)),'sitemap.xml',`${indexable.length}개 색인 URL 정확히 필요: 누락·중복·404 포함 확인`);
+  for (const p of indexable.filter(p=>p.updated)) {
+    const entry = all(sitemap,/<url>([\s\S]*?)<\/url>/g).find(m=>m[1].includes(`<loc>${urlFor(p.file)}</loc>`))?.[1] || '';
+    expect(entry.includes(`<lastmod>${p.updated}</lastmod>`),'sitemap.xml',`${p.file} 실제 수정일 불일치`);
+  }
   const rss = await readFile(resolve(root,'rss.xml'),'utf8');
   const items = all(rss,/<item>[\s\S]*?<link>([^<]+)<\/link>[\s\S]*?<\/item>/g).map(m => m[1]);
   expect(items.length > 0 && items.every(u => expected.includes(u)),'rss.xml','RSS 항목은 색인 페이지 주소만 포함');

@@ -1,7 +1,11 @@
 import {officeMap} from './maps.mjs';
 import {renderCases} from './cases.mjs';
 import {guidePages, guideCards} from './guides.mjs';
-import {tel, kakao, external, courtR, courtB, section, head, card, faq, note, source} from './parts.mjs';
+import {tel, kakao, external, courtR, courtB, section, head, card, faq, related, note, source} from './parts.mjs';
+const residentDocuments = 'https://www.gov.kr/mw/AA020InfoCappView.do?CappBizCD=13100000015';
+const familyDocuments = 'https://efamily.scourt.go.kr/';
+const propertyDocuments = 'https://www.iros.go.kr/';
+const bankruptcyCosts = 'https://www.scourt.go.kr/nm/min_2/min_2_1/min_2_1_5/index.html';
 const naver = 'https://map.naver.com/p/search/' + encodeURIComponent('대전 서구 둔산중로78번길 40');
 // Destination selected and verified in the real Naver Maps address result.
 const directions = 'https://map.naver.com/p/directions/-/3zyUmy,2zX8SV,' + encodeURIComponent('대전 서구 둔산중로78번길 40') + ',,ADDRESS_POI/-/transit?c=15.00,0,0,0,dh';
@@ -21,6 +25,7 @@ const corePages = [
   },
   {
     file: 'personal-rehabilitation.html',
+    published: '2026-10-16', updated: '2026-10-22',
     title: '대전 개인회생 신청자격·조건 안내 | 법무사 안상재 사무소',
     description: '대전 개인회생 신청자격과 조건, 소득·재산·생계비 및 변제계획을 살펴보세요. 직장인·자영업자의 준비서류, 독촉·압류 관련 확인 사항과 진행 절차 안내. 법무사 안상재 사무소.',
     label: '개인회생', eyebrow: 'PERSONAL REHABILITATION',
@@ -37,10 +42,11 @@ const corePages = [
         ['가족에게 무조건 알려지지 않나요?', '가족의 소득·재산이나 부양 관련 자료가 필요한 경우가 있고, 우편물·공동채무 등 상황도 다릅니다. 가족에게 절대 알려지지 않는다고 보장할 수는 없습니다. 연락과 방문에 필요한 사정을 미리 말씀해 주세요.'],
         ['처음 상담할 때 서류가 전부 있어야 하나요?', '첫 상담은 대략적인 채무액, 소득, 재산과 현재 가장 급한 문제를 설명하는 것으로 시작할 수 있습니다. 이후 본인 상황에 필요한 자료와 발급 범위를 안내받아 준비하면 됩니다.']
       ]) + source(courtR, '서울회생법원 개인회생 제도 안내') + note) +
-      section(`<div class="grid-3">${card('GUIDE 01', '준비서류', '모두 한꺼번에 발급하기보다, 필요한 자료부터 확인하세요.', '/rehabilitation-documents.html', '준비 항목 확인')}${card('GUIDE 02', '비용과 변제금', '법원 비용, 업무 보수와 매달 납부하는 변제금을 구분합니다.', '/rehabilitation-cost.html', '비용 구조 확인')}${card('GUIDE 03', '다른 제도와 비교', '개인파산·면책과 채무조정의 차이도 함께 살펴보세요.', '/debt-adjustment.html', '제도 비교')}</div>`)
+      section(related([['/rehabilitation-documents.html', '개인회생 준비서류'], ['/rehabilitation-cost.html', '비용과 변제금 구분'], ['/debt-adjustment.html', '다른 채무조정 제도와 비교']]))
   },
   {
     file: 'personal-bankruptcy.html',
+    published: '2026-10-16', updated: '2026-10-22',
     title: '대전 개인파산 신청자격·면책 안내 | 법무사 안상재 사무소',
     description: '대전 개인파산 신청자격, 지급불능 상태와 파산면책 절차를 알아보세요. 실직·질병·폐업 등 상황별 검토, 소득·재산 준비자료와 비면책채무 안내. 법무사 안상재 사무소.',
     label: '개인파산·면책', eyebrow: 'PERSONAL BANKRUPTCY & DISCHARGE',
@@ -48,16 +54,18 @@ const corePages = [
     intro: '채무를 갚기 어려운 상태라면 현재의 소득·재산과 생활 여건을 정확히 살펴야 합니다. 개인파산과 면책을 구분해 필요한 내용을 차분히 안내합니다.',
     body: section(`<div class="grid-2"><div>${head('KNOW THE DIFFERENCE', '파산선고와 면책은<br>같은 결정이 아닙니다.')}<p class="lead">개인파산은 채무를 정리하는 절차이고, 면책은 남은 채무의 변제책임을 면제할지 법원이 판단하는 절차입니다.</p></div><div class="reading"><p>파산이 선고되었다고 해서 모든 빚이 바로 없어지는 것은 아닙니다. 재산과 채무에 대한 조사, 필요한 절차와 별도의 면책 심사가 이어질 수 있습니다. 따라서 신청을 알아볼 때는 파산 가능성뿐 아니라 면책과 관련해 확인할 사정도 함께 살펴야 합니다.</p><p>개인파산 상담을 고민하고 계신다면, 소득이 없는 이유와 현재 생활비를 어떻게 마련하는지부터 정리해 보세요. 질병, 고령, 실직, 사업 중단 등 사정은 사람마다 다릅니다. 어려운 상황을 짧은 문장으로라도 사실대로 설명하는 데서 검토를 시작할 수 있습니다.</p></div></div>`) +
       section(head('WHAT WE REVIEW', '생활 여건과 자료를 함께 확인합니다.', '채무 총액 하나만으로 결론을 내리지 않습니다. 갚을 능력과 재산 상태를 전체적으로 살펴봅니다.') + `<div class="grid-2">${card('01', '현재의 상환 능력', '현재 소득뿐 아니라 연령, 건강, 근로 가능성, 가족의 부양 상황 등 생활 여건을 확인합니다. 앞으로의 소득 가능성도 검토할 수 있습니다.')}${card('02', '재산과 최근 거래', '본인 명의 재산, 보증금, 보험, 차량과 예금 등을 정리합니다. 최근 재산 처분이나 가족 간 거래가 있다면 경위와 자료를 확인합니다.')}${card('03', '채무가 생긴 과정', '채무가 늘어난 시기와 사용처, 상환 과정, 최근 대출과 특정 채권자에 대한 변제 내역 등을 사실에 맞게 설명합니다.')}${card('04', '면책 관련 쟁점', '재산 은닉, 허위 서류 등 면책에 영향을 줄 수 있는 사정과 면책되지 않는 채무가 있는지 구분해 확인합니다.')}</div>`) +
-      section(`<div class="reading">${head('COMPLETE AND HONEST INFORMATION', '숨기지 않고 정리하는 것이 준비의 기본입니다.')}<p>기억이 나지 않는 부분을 억지로 단정할 필요는 없습니다. 알고 있는 재산이나 채무를 누락하지 않고, 확인이 필요한 부분은 구분해 두세요. 거래나 재산 처분을 설명해야 할 수 있으므로 관련 계약서와 입출금 자료도 보관해 주세요.</p><p>신청을 준비하며 새로운 대출이나 재산 처분을 고민한다면 실행 전에 영향을 확인하는 편이 좋습니다. 가족 간 거래를 포함한 최근 거래도 확인 대상이 될 수 있습니다.</p><p>상담에서는 마음에 걸리는 사정도 함께 알려 주세요. 다른 사람의 면책 사례와 본인의 사정은 같지 않습니다. 광고 속 탕감 비율이나 기간보다, 자료가 사실관계를 충분히 설명하는지 살펴야 합니다.</p></div>`) +
+      section(`<div class="reading">${head('COMPLETE AND HONEST INFORMATION', '숨기지 않고 정리하는 것이 준비의 기본입니다.')}<p>기억이 나지 않는 부분을 억지로 단정할 필요는 없습니다. 알고 있는 재산이나 채무를 누락하지 않고, 확인이 필요한 부분은 구분해 두세요. 거래나 재산 처분을 설명해야 할 수 있으므로 관련 계약서와 입출금 자료도 보관해 주세요.</p><p>신청을 준비하며 새로운 대출이나 재산 처분을 고민한다면 실행 전에 영향을 확인하는 편이 좋습니다. 가족 간 거래를 포함한 최근 거래도 확인 대상이 될 수 있습니다.</p><h3>상담 전에 정리하면 좋은 자료</h3><ul class="check-list"><li>채권자별 채무 내역과 받은 독촉장·지급명령·압류 서류</li><li>현재 수입과 생활비를 설명할 자료, 해당하는 경우 실직·폐업·질병 관련 자료</li><li>임대차계약서와 예금·보험·차량·부동산 등 재산 자료, 최근 재산 처분 내역</li></ul><p>첫 상담 전에 모두 발급할 필요는 없습니다. 가지고 있는 자료부터 확인하고 필요한 종류와 기간을 안내받으세요. 계좌 비밀번호나 인증번호는 보내지 마세요.</p><p>다른 사람의 면책 사례와 본인의 사정은 같지 않습니다. 마음에 걸리는 사정도 함께 알려 주셔야 사실관계를 빠짐없이 검토할 수 있습니다.</p></div>`) +
       section(head('THE MAIN STAGES', '절차의 흐름을 이해하면<br>준비할 일이 보입니다.') + `<ol class="steps"><li><h3>지급불능과 면책 쟁점 검토</h3><p>소득·지출·재산·채무와 생활 경위를 확인하고 개인회생 등 다른 절차와도 비교합니다.</p></li><li><h3>파산·면책 신청서 준비와 제출</h3><p>사실관계와 증빙자료를 정리하여 관할과 제출 요건을 확인합니다. 부족한 자료는 추가로 준비합니다.</p></li><li><h3>법원 심사와 재산 조사</h3><p>파산관재인이 선임되면 조사에 필요한 자료를 제출하고 출석·설명 요구에 성실히 응합니다. 재산 상태에 따라 절차가 달라집니다.</p></li><li><h3>면책 여부와 결정 이후 확인</h3><p>면책 심사 결과를 확인하고 확정 여부 및 남아 있는 채무의 성격 등을 구분합니다. 파산선고 단계에서 절차가 모두 끝나는 것은 아닙니다.</p></li></ol>`) +
       section(head('IMPORTANT QUESTIONS', '개인파산·면책을 알아볼 때') + faq([
         ['재산이 없으면 누구나 면책을 받을 수 있나요?', '재산이 없다는 사정만으로 면책이 보장되지는 않습니다. 소득과 근로 가능성, 채무의 경위, 제출 자료, 절차상 의무 이행 등 확인할 사항이 있습니다. 법원의 개별 심사를 거쳐 결정됩니다.'],
         ['세금과 벌금도 모두 없어지나요?', '면책의 효력이 미치지 않는 채무가 있습니다. 조세와 벌금 등은 일반 대출채무와 구분해서 살펴야 하며, 그 밖의 채무도 성격에 따라 판단이 달라질 수 있습니다. 채무 목록에는 빠짐없이 적어 상담 때 확인하세요.'],
         ['소득이 조금 있으면 개인파산은 불가능한가요?', '수입 유무만으로 단정하지 않습니다. 실제 상환 능력과 생활 여건을 함께 검토합니다. 계속적인 수입으로 일정한 변제가 가능하다면 개인회생 등 다른 절차가 더 적합한지도 확인해야 합니다.'],
         ['직업이나 자격에 영향이 있나요?', '파산선고에 따른 일부 법률상 자격 제한이나 근무 규정의 영향을 확인해야 할 수 있습니다. 직종과 자격에 따라 다르므로 관련 규정과 면책·복권에 따른 변화를 신청 전에 검토하는 것이 좋습니다.'],
-        ['신청 후 법원이나 파산관재인의 연락은 어떻게 하나요?', '연락을 확인하고 자료 제출과 출석 안내에 정해진 기한대로 응해야 합니다. 전화번호나 주소가 바뀌거나 안내 내용을 이해하기 어려울 때에는 지체하지 말고 필요한 확인을 받으세요.']
-      ]) + source(courtB, '서울회생법원 개인파산·면책 제도 안내') + note) +
-      section(`<div class="grid-2">${card('READ MORE', '파산과 면책의 차이', '신청 전 확인할 면책 쟁점과 결정 이후 유의사항을 정리했습니다.', '/bankruptcy-discharge.html', '면책 안내 보기')}${card('COMPARE', '개인회생과 비교', '앞으로 수입을 바탕으로 변제할 수 있다면 회생도 함께 살펴보세요.', '/personal-rehabilitation.html', '개인회생 알아보기')}</div>`)
+        ['신청 후 법원이나 파산관재인의 연락은 어떻게 하나요?', '연락을 확인하고 자료 제출과 출석 안내에 정해진 기한대로 응해야 합니다. 전화번호나 주소가 바뀌거나 안내 내용을 이해하기 어려울 때에는 지체하지 말고 필요한 확인을 받으세요.'],
+        ['개인파산·면책 비용은 어떤 항목으로 나뉘나요?', '법원에 내는 인지·송달료와 사건에 따라 법원이 명하는 파산관재인 선임 등을 위한 예납금, 의뢰한 업무에 대한 보수를 구분합니다. 파산과 면책의 절차비용을 각각 확인하고, 서류 발급 등 별도 비용이 포함되는지도 살펴보세요. 실제 납부액은 채권자 수와 법원 안내 등에 따라 확인해야 합니다.'],
+        ['면책결정까지 얼마나 걸리나요?', '자료 준비와 보정, 재산 조사·환가 여부, 채권자 관련 쟁점과 법원 일정에 따라 달라집니다. 파산선고와 면책결정은 다른 단계이므로 한 시점으로 묶어 완료 기간을 약속할 수 없습니다. 진행 중에는 자료 제출·출석 기한을 확인해 주세요.']
+      ]) + source(courtB, '서울회생법원 개인파산·면책 제도 안내', '2026-10-22') + source(bankruptcyCosts, '대한민국 법원 파산·면책 동시신청 비용 안내', '2026-10-22') + note) +
+      section(related([['/bankruptcy-discharge.html', '파산과 면책의 차이'], ['/personal-rehabilitation.html', '개인회생 신청 요건'], ['/debt-adjustment.html', '채무조정 제도 비교']]))
   },
   {
     file: 'cases.html',
@@ -75,7 +83,7 @@ const corePages = [
     label: '상담 안내', eyebrow: 'LET’S TALK',
     heading: '어디서부터 말할지<br>몰라도 괜찮습니다.',
     intro: '지금 가장 걱정되는 일부터 알려 주세요. 필요한 내용을 하나씩 정리하며 상담 방법과 방문 일정을 안내합니다.',
-    body: section(`<div id="contact" class="grid-2"><article class="card"><h2>전화로 이야기하기</h2><p class="lead"><a href="${tel}">010-6429-4797</a></p><p>현재 상황과 문의하실 내용을 말씀해 주세요. 방문을 원하시면 통화에서 일정을 먼저 확인해 주세요.</p><a class="button primary" href="${tel}">전화 연결 <span aria-hidden="true">↗</span></a></article><article class="card"><h2>카카오톡으로 문의하기</h2><p>먼저 간단한 문의와 통화 가능한 시간을 남기실 수 있습니다. 계좌·금융 비밀번호와 인증번호는 상담 단계와 관계없이 보내지 마세요. 주민등록번호나 신분증 사진은 필요한 범위와 안전한 전달 방법을 확인한 뒤 준비해 주세요.</p><a class="button" href="${kakao}" ${external}>카카오톡 열기 <span aria-hidden="true">↗</span></a><p class="note">외부 카카오톡 오픈채팅으로 이동합니다. 해당 서비스의 개인정보 처리방침과 이용 환경이 적용됩니다.</p></article></div>`) +
+    body: section(`<div id="contact" class="grid-2"><article class="card"><h2>전화로 이야기하기</h2><p class="lead"><a href="${tel}">010-6429-4797</a></p><p>현재 상황과 문의하실 내용을 말씀해 주세요. 방문을 원하시면 통화에서 일정을 먼저 확인해 주세요.</p><a class="button primary" href="${tel}">전화 연결 <span aria-hidden="true">↗</span></a></article><article class="card"><h2>카카오톡으로 문의하기</h2><p>먼저 간단한 문의와 통화 가능한 시간을 남기실 수 있습니다. 계좌·금융 비밀번호와 인증번호는 상담 단계와 관계없이 보내지 마세요. 주민등록번호나 신분증 사진은 필요한 범위와 안전한 전달 방법을 확인한 뒤 준비해 주세요.</p><a class="button" href="${kakao}" ${external}>카카오톡 문의하기 <span aria-hidden="true">↗</span></a><p class="note">외부 카카오톡 오픈채팅으로 이동합니다. 해당 서비스의 개인정보 처리방침과 이용 환경이 적용됩니다.</p></article></div>`) +
       section(head('BEFORE OUR FIRST CONVERSATION', '처음에는 이 정도만 정리해 주세요.', '첫 상담을 위해 모든 서류를 한꺼번에 발급할 필요는 없습니다. 정확히 모르는 항목은 확인이 필요하다고 말씀해 주시면 됩니다.') + `<div class="grid-3">${card('01', '대략적인 현재 상황', '채무 총액과 채권자 수, 월수입과 생활비, 보유한 재산을 아는 범위에서 정리해 주세요.')}${card('02', '가장 급한 문제', '독촉·압류·경매가 진행 중이거나 법원 서류를 받았다면 문서명과 기한을 먼저 알려 주세요.')}${card('03', '편한 상담 방식', '전화 가능한 시간과 방문 희망 일정을 알려 주세요. 연락 방식에 주의가 필요한 사정도 말씀해 주세요.')}</div>`) +
       section(`<div class="grid-2"><div>${head('VISIT BY APPOINTMENT', '방문 전 일정을<br>확인해 주세요.')}<p>법무사 안상재 사무소<br><strong>대전 서구 둔산중로78번길 40<br>봉화빌딩 402호</strong></p><p>안내 시간: 평일 09:00–18:00</p><p class="note">외부 업무 등으로 방문 상담이 어려울 수 있습니다. 방문 전 전화로 예약해 주세요.</p><a class="text-link" href="/location.html">오시는 길과 네이버 지도 <span aria-hidden="true">↗</span></a></div><div class="reading">${head('YOUR INFORMATION', '필요한 정보만,<br>적절한 방법으로 전달해 주세요.')}<p>이 홈페이지에는 상담 내용을 입력하거나 파일을 올리는 접수 양식이 없습니다. 전화와 카카오톡 연결을 통해 상담을 시작합니다.</p><p>초기 문의에는 질문과 연락 가능한 시간 등 최소한의 정보만 전달해 주세요. 사건 검토에 필요한 자료의 범위와 전달 방법은 별도로 확인한 뒤 준비합니다.</p><a class="text-link" href="/privacy.html">개인정보 안내 확인 <span aria-hidden="true">↗</span></a></div></div>`) +
       section(head('COMMON QUESTIONS', '상담 전에 궁금한 점') + faq([
@@ -96,6 +104,7 @@ const corePages = [
   },
   {
     file: 'rehabilitation-cost.html',
+    published: '2026-10-16', updated: '2026-10-22',
     title: '대전 개인회생 비용·변제금 안내 | 법무사 안상재 사무소',
     description: '개인회생 신청비용·법원 납부 비용·법무사 보수와 월 변제금의 차이를 알아보세요. 비용 견적과 분할 지급 조건, 추가 비용 및 소득·생계비·재산 검토 사항을 안내합니다.',
     label: '개인회생 비용', eyebrow: 'COST & REPAYMENT',
@@ -103,10 +112,17 @@ const corePages = [
     intro: '신청에 드는 비용과 앞으로 갚아나갈 변제금은 다릅니다. 어떤 항목에 얼마가 필요한지 이해한 뒤 진행 여부를 결정하세요.',
     body: section(head('UNDERSTAND THE BREAKDOWN', '개인회생 비용은 나누어 확인하세요.') + `<div class="grid-3">${card('01', '법원 납부 비용', '인지, 송달 등 법원 절차에 필요한 비용입니다. 채권자 수와 사건 유형, 추가 납부 여부 등에 따라 달라질 수 있습니다.')}${card('02', '사무소 업무 보수', '법령이 정한 범위의 서류 작성·제출 등 맡기는 업무에 대한 보수입니다. 계약 전에 구체적인 업무 범위와 지급 조건을 확인합니다.')}${card('03', '월 변제금', '법원이 인가한 변제계획에 따라 납부하는 금액입니다. 신청 비용이나 사무소 보수와 별개이며 소득·재산 등을 검토해 정합니다.')}</div>`) +
       section(`<div class="reading">${head('BEFORE YOU AGREE', '총액과 포함 범위를 확인하는 질문')}<ul class="check-list"><li>안내받은 금액에 법원 비용이 포함되어 있나요?</li><li>서류 발급·추가 제출 등 별도 발생 가능한 항목은 무엇인가요?</li><li>보정 등 후속 업무가 어디까지 포함되나요?</li><li>지급 시기와 분할 지급 조건은 어떻게 되나요?</li><li>진행 중 중단될 경우 정산 기준은 무엇인가요?</li></ul><p>이 페이지에서 일률적인 수임료나 최저 비용을 제시하지 않는 이유는 사건별 업무 범위가 다르기 때문입니다. 가격 숫자만 비교하기보다 포함 업무와 추가 비용을 서면으로 확인하는 것이 좋습니다.</p></div>`) +
-      section(head('MONTHLY REPAYMENT', '월 변제금은 어떻게 검토하나요?') + `<div class="grid-2">${card('생활의 관점', '실제 수입과 필요한 지출', '급여나 사업소득의 실제 흐름을 확인하고, 부양 상황과 주거·의료 등 지출을 정리합니다. 지출액 전부가 그대로 생계비로 인정되는 것은 아닙니다.')}${card('재산의 관점', '재산과 채무의 성격', '재산 가치와 담보, 채권의 성격 등도 계획에 영향을 줄 수 있습니다. 간단한 계산기나 다른 사람의 금액만으로 본인 변제금을 확정할 수 없습니다.')}</div>` + source(courtR, '서울회생법원 개인회생 안내'))
+      section(head('MONTHLY REPAYMENT', '월 변제금은 어떻게 검토하나요?') + `<div class="grid-2">${card('생활의 관점', '실제 수입과 필요한 지출', '급여나 사업소득의 실제 흐름을 확인하고, 부양 상황과 주거·의료 등 지출을 정리합니다. 지출액 전부가 그대로 생계비로 인정되는 것은 아닙니다.')}${card('재산의 관점', '재산과 채무의 성격', '재산 가치와 담보, 채권의 성격 등도 계획에 영향을 줄 수 있습니다. 간단한 계산기나 다른 사람의 금액만으로 본인 변제금을 확정할 수 없습니다.')}</div>` + source(courtR, '서울회생법원 개인회생 안내')) +
+      section(head('COST QUESTIONS', '비용을 비교할 때 자주 묻는 질문') + faq([
+        ['채권자 수가 늘어나면 신청비용도 달라지나요?', '송달 대상과 횟수 등에 따라 법원에 납부하는 비용이 달라질 수 있습니다. 최초 안내한 비용 외에 추가 납부가 필요한지 확인하고, 법원 실비와 사무소 업무 보수를 나누어 견적을 받아 보세요.'],
+        ['보정 서류 작성과 제출도 보수에 포함되나요?', '사무소마다 맡기는 업무 범위와 계약 조건이 다를 수 있습니다. 신청서 작성·제출, 보정 대응, 별도 신청이나 추가 서류 발급 중 어떤 업무가 포함되는지 계약 전에 서면으로 확인해 주세요. 월 변제금은 이 비용과 별개입니다.']
+      ]) + note) +
+      section(related([['/personal-rehabilitation.html', '개인회생 신청 요건'], ['/rehabilitation-documents.html', '개인회생 준비서류'], ['/rehabilitation-process.html', '진행 절차와 기간']]))
+
   },
   {
     file: 'rehabilitation-documents.html',
+    published: '2026-10-16', updated: '2026-10-22',
     title: '개인회생 준비서류·소득자료 안내 | 대전 법무사 안상재',
     description: '대전 개인회생 상담을 준비하는 분을 위한 신분·가족관계, 소득, 재산, 채무 관련 서류 안내. 직장인·자영업자·프리랜서의 소득자료와 안전한 전달 방법을 확인하세요.',
     label: '개인회생 준비서류', eyebrow: 'DOCUMENT CHECKLIST',
@@ -114,10 +130,14 @@ const corePages = [
     intro: '처음부터 모든 자료를 발급하지 않아도 됩니다. 현재 상황을 확인한 뒤 필요한 종류와 기간, 발급 방법을 안내받으세요.',
     body: section(head('START WITH FOUR GROUPS', '어떤 자료를 살펴보나요?', '아래는 일반적인 준비 범위입니다. 실제 제출 서류와 조회 기간은 사건 및 법원의 요구에 따라 달라질 수 있습니다.') + `<div class="grid-2">${card('01', '신분·주소·가족관계', '주민등록과 가족관계, 실제 거주 및 부양 상황을 확인할 자료를 살펴봅니다. 필요한 증명서의 종류와 표시 범위는 먼저 확인해 주세요.')}${card('02', '수입과 지출', '급여명세, 소득 관련 증명, 계좌 입금 내역 등 실제 수입을 설명할 자료와 주거비·의료비 등 지출 근거를 확인합니다.')}${card('03', '재산', '임대차계약, 예금, 보험, 차량, 부동산 등 재산의 종류와 가치를 확인할 자료를 정리합니다. 담보와 처분 내역도 함께 봅니다.')}${card('04', '채무와 법원 서류', '채권자별 채무 내역, 보증 여부, 최근 거래와 사용처, 독촉장·지급명령·압류 등 현재 절차를 보여주는 자료를 확인합니다.')}</div>`) +
       section(`<div class="grid-2"><div class="reading">${head('SALARY INCOME', '직장에 다니고 있다면')}<p>근로 형태와 급여 지급 방식, 근무 기간을 설명할 수 있도록 정리해 주세요. 상여·수당처럼 매달 달라지는 항목이 있다면 실제 수령 내역을 함께 확인합니다. 현금으로 받는 급여 등 증빙이 익숙하지 않은 경우에는 준비 가능한 자료부터 상담에서 확인하세요.</p></div><div class="reading">${head('BUSINESS & FREELANCE', '사업·프리랜서 수입이 있다면')}<p>매출과 실제 소득은 다를 수 있습니다. 매출 자료, 사업 경비, 세금 신고와 입출금 내역 등 수입 구조를 설명할 근거를 정리해 주세요. 성수기·비수기나 최근 소득 변화가 있다면 변동 이유도 적어 두는 것이 좋습니다.</p></div></div>`) +
-      section(`<div class="reading">${head('SAFE PREPARATION', '자료를 보내기 전에 확인해 주세요.')}<ul class="check-list"><li>필요한 서류의 명칭과 조회 기간을 안내받았나요?</li><li>최근 이직·이사·재산 거래 등 바뀐 내용을 알려 주셨나요?</li><li>일부 채무나 재산이 빠지지 않았는지 확인했나요?</li><li>보내는 상대와 전달 방법이 사무소 안내와 일치하나요?</li></ul><p>계좌·금융 비밀번호와 인증번호는 상담 단계와 관계없이 보내지 마세요. 신분증·주민등록번호가 포함된 서류는 필요한 범위와 안전한 전달 방법을 확인한 뒤 준비하세요.</p><p class="note">이 목록은 모든 사건에 공통으로 요구되는 확정 목록이 아닙니다. 불필요한 발급을 줄이기 위해 상담 후 준비 범위를 확인해 주세요.</p><a class="text-link" href="/rehabilitation-process.html">서류 준비 다음 절차 보기 <span aria-hidden="true">↗</span></a></div>`)
+      section(`<div class="reading">${head('SAFE PREPARATION', '자료를 보내기 전에 확인해 주세요.')}<ul class="check-list"><li>필요한 서류의 명칭과 조회 기간을 안내받았나요?</li><li>최근 이직·이사·재산 거래 등 바뀐 내용을 알려 주셨나요?</li><li>일부 채무나 재산이 빠지지 않았는지 확인했나요?</li><li>보내는 상대와 전달 방법이 사무소 안내와 일치하나요?</li></ul><p>계좌·금융 비밀번호와 인증번호는 상담 단계와 관계없이 보내지 마세요. 신분증·주민등록번호가 포함된 서류는 필요한 범위와 안전한 전달 방법을 확인한 뒤 준비하세요.</p><p class="note">이 목록은 모든 사건에 공통으로 요구되는 확정 목록이 아닙니다. 불필요한 발급을 줄이기 위해 상담 후 준비 범위를 확인해 주세요.</p><a class="text-link" href="/rehabilitation-process.html">서류 준비 다음 절차 보기 <span aria-hidden="true">↗</span></a></div>`) +
+      section(head('OFFICIAL DOCUMENT SOURCES', '서류별 발급처와 확인할 내용') + `<div class="table-wrap document-table-wrap" role="region" aria-label="준비서류 발급처 표" tabindex="0"><table class="document-table"><caption>개인회생 준비에 참고할 서류와 공식 발급창구</caption><thead><tr><th scope="col">서류·자료</th><th scope="col">발급·확인처</th><th scope="col">먼저 확인할 내용</th></tr></thead><tbody><tr><th scope="row">주민등록표 등본·초본</th><td data-label="발급·확인처"><a href="${residentDocuments}" ${external}>정부24 주민등록표 발급 안내 ↗</a> 또는 주민센터</td><td data-label="먼저 확인할 내용">주소 변동 등 필요한 기재 범위와 발급 기준일을 안내받으세요.</td></tr><tr><th scope="row">가족관계·혼인관계증명서</th><td data-label="발급·확인처"><a href="${familyDocuments}" ${external}>대법원 전자가족관계등록시스템 ↗</a></td><td data-label="먼저 확인할 내용">일반·상세 등 증명서 종류와 대상자를 먼저 확인하세요.</td></tr><tr><th scope="row">급여·사업·프리랜서 소득자료</th><td data-label="발급·확인처">근무처의 급여자료, 세금 신고자료, 거래 금융기관의 입출금 내역 등</td><td data-label="먼저 확인할 내용">소득 유형과 최근 변동에 따라 필요한 자료·조회 기간이 다릅니다.</td></tr><tr><th scope="row">부동산 등기사항증명서</th><td data-label="발급·확인처"><a href="${propertyDocuments}" ${external}>대한민국 법원 인터넷등기소 ↗</a></td><td data-label="먼저 확인할 내용">등기자료 외에도 임대차보증금·차량·예금 등 보유 재산 자료가 필요할 수 있습니다.</td></tr><tr><th scope="row">채무 내역·부채증명 자료</th><td data-label="발급·확인처">해당 채권 금융기관 등</td><td data-label="먼저 확인할 내용">채권자명과 잔액, 담보·보증 여부를 확인하고 개인 간 채무도 빠뜨리지 마세요.</td></tr></tbody></table></div><p class="note">발급 가능한 서류와 본인확인·수수료 등 이용 조건은 각 공식 서비스에서 확인하세요. 사건별 요구 목록과 발급 범위를 먼저 안내받은 뒤 준비하면 중복 발급을 줄일 수 있습니다.</p>`) +
+      section(related([['/personal-rehabilitation.html', '개인회생 신청 요건'], ['/rehabilitation-cost.html', '비용과 변제금 안내'], ['/rehabilitation-process.html', '신청 이후 진행 절차']]))
+
   },
   {
     file: 'rehabilitation-process.html',
+    published: '2026-10-16', updated: '2026-10-22',
     title: '개인회생 절차·기간 안내 | 대전 법무사 안상재',
     description: '개인회생 신청절차, 보정·개시결정·변제계획 인가와 면책까지 진행 단계를 확인하세요. 인가까지의 소요 기간과 변제기간의 차이, 법원 안내와 제출 기한을 정리했습니다.',
     label: '개인회생 절차', eyebrow: 'STEP BY STEP',
@@ -129,10 +149,13 @@ const corePages = [
         ['개인회생은 얼마나 걸리나요?', '자료 준비 상태, 보정 요구, 채권 및 재산 관련 쟁점, 법원 일정에 따라 달라집니다. 인가까지의 기간과 변제계획에서 정한 변제기간도 구분해야 하므로 일률적인 완료 시점을 보장할 수 없습니다.'],
         ['보정 요구를 받으면 문제가 생긴 것인가요?', '보정은 법원이 추가 자료나 설명을 요구하는 과정입니다. 요구 내용을 정확히 확인하고 정해진 기한에 대응하는 것이 중요합니다. 준비가 어려운 자료가 있다면 미리 확인해야 합니다.'],
         ['인가만 받으면 끝인가요?', '인가 이후에도 변제계획을 이행하고 면책 절차를 확인해야 합니다. 정해진 변제 수행과 법원 안내 확인이 필요합니다.']
-      ]) + note)
+      ]) + note) +
+      section(related([['/rehabilitation-documents.html', '신청 전 준비서류'], ['/rehabilitation-cost.html', '법원 비용과 변제금'], ['/personal-rehabilitation.html', '개인회생 전체 안내']]))
+
   },
   {
     file: 'bankruptcy-discharge.html',
+    published: '2026-10-16', updated: '2026-10-22',
     title: '개인파산과 면책의 차이·주의사항 | 대전 법무사 안상재',
     description: '개인파산 선고와 면책 결정의 차이, 면책 관련 검토 사유와 비면책채무, 조사·자료 제출 시 주의사항을 안내합니다. 대전 개인파산 상담 전 확인하세요.',
     label: '파산·면책의 이해', eyebrow: 'UNDERSTANDING DISCHARGE',
@@ -140,10 +163,13 @@ const corePages = [
     intro: '파산선고만으로 모든 채무의 책임이 없어지는 것은 아닙니다. 면책 심사에서 확인하는 사정과 결정 이후의 의미를 구분해 살펴봅니다.',
     body: section(head('TWO DIFFERENT DECISIONS', '파산과 면책, 각각 무엇을 뜻하나요?') + `<div class="grid-2">${card('01', '개인파산', '채무자가 가진 재산으로 채무를 갚기 어려운 상태에서 재산과 채무를 정리하는 법원 절차입니다. 재산 조사와 필요한 환가·배당 등이 문제될 수 있습니다.')}${card('02', '면책', '파산절차에서 정리되고 남은 채무의 변제책임을 면제할지 판단하는 별도 절차입니다. 파산선고와 동시에 모든 채무가 자동으로 사라지는 의미가 아닙니다.')}</div>`) +
       section(`<div class="reading">${head('WHAT NEEDS CAREFUL REVIEW', '신청 전에 알려 주셔야 할 사정')}<p>최근의 재산 처분, 가족·지인과의 금전거래, 특정 채권자에게만 한 변제, 채무가 늘어난 이유와 사용처 등은 검토가 필요할 수 있습니다. 숨긴 재산이나 허위 진술, 허위 서류는 면책 판단에 영향을 줄 수 있습니다.</p><p>낭비나 도박 등 우려되는 사정이 있다면 임의로 빼고 설명하지 마세요. 사실관계와 자료를 정확히 확인해야 검토할 쟁점이 보입니다. 이런 사정이 있다는 이유만으로 온라인 글을 보고 결과를 스스로 단정하기보다 개별 검토를 받는 것이 좋습니다.</p><p>파산관재인이나 법원의 자료·설명 요구와 출석 안내에도 성실하게 응해야 합니다. 연락이 닿지 않거나 필요한 자료를 제출하지 못하는 상황이 생기면 이유와 대응 방법을 바로 확인하세요.</p></div>`) +
-      section(head('NOT EVERY CLAIM IS DISCHARGED', '면책되지 않는 채무는 구분해야 합니다.') + `<div class="reading"><p>조세, 벌금, 일정한 불법행위에 따른 손해배상 등 법률상 면책의 효력이 미치지 않는 채무가 있습니다. 채무의 이름만으로 판단하기 어려운 경우에는 발생 경위와 관련 문서를 확인해야 합니다.</p><p>채무 목록에는 이러한 채무도 빠짐없이 정리해 주세요. 면책결정 이후에도 남는 책임이 있는지, 보증인이나 공동채무자에 어떤 영향이 있는지는 별도 확인이 필요합니다. 면책을 받으면 모든 사람의 모든 관련 책임까지 함께 없어지는 것은 아닙니다.</p><a class="text-link" href="/personal-bankruptcy.html">개인파산·면책 전체 안내 <span aria-hidden="true">↗</span></a>${source(courtB, '서울회생법원 개인파산·면책 안내')}${note}</div>`)
+      section(head('NOT EVERY CLAIM IS DISCHARGED', '면책되지 않는 채무는 구분해야 합니다.') + `<div class="reading"><p>조세, 벌금, 일정한 불법행위에 따른 손해배상 등 법률상 면책의 효력이 미치지 않는 채무가 있습니다. 채무의 이름만으로 판단하기 어려운 경우에는 발생 경위와 관련 문서를 확인해야 합니다.</p><p>채무 목록에는 이러한 채무도 빠짐없이 정리해 주세요. 면책결정 이후에도 남는 책임이 있는지, 보증인이나 공동채무자에 어떤 영향이 있는지는 별도 확인이 필요합니다. 면책을 받으면 모든 사람의 모든 관련 책임까지 함께 없어지는 것은 아닙니다.</p><a class="text-link" href="/personal-bankruptcy.html">개인파산·면책 전체 안내 <span aria-hidden="true">↗</span></a>${source(courtB, '서울회생법원 개인파산·면책 안내')}${note}</div>`) +
+      section(related([['/personal-bankruptcy.html', '개인파산 신청 요건과 준비'], ['/personal-rehabilitation.html', '개인회생과 비교'], ['/debt-adjustment.html', '채무조정 제도 비교']]))
+
   },
   {
     file: 'debt-adjustment.html',
+    published: '2026-10-16', updated: '2026-10-22',
     title: '개인회생·개인파산·채무조정 비교 | 대전 법무사 안상재',
     description: '개인회생·개인파산과 신용회복위원회 채무조정의 차이를 비교하세요. 연체된 대출·카드 채무의 상환 조정, 신용회복 상담 전 소득·재산·채무별 확인 사항을 안내합니다.',
     label: '채무조정 비교', eyebrow: 'CHOOSE WITH CLARITY',
@@ -152,7 +178,9 @@ const corePages = [
     body: section(head('SIDE BY SIDE', '세 가지 경로를 함께 살펴보세요.') + `<div class="table-wrap"><table><caption>개인회생, 개인파산·면책, 신용회복위원회 채무조정의 일반적 비교</caption><thead><tr><th scope="col">구분</th><th scope="col">개인회생</th><th scope="col">개인파산·면책</th><th scope="col">신용회복위원회 채무조정</th></tr></thead><tbody><tr><th scope="row">주요 검토 방향</th><td>계속적인 소득으로 계획에 따른 변제가 가능한지</td><td>현재 재산·소득과 생활 여건으로 채무를 갚기 어려운지</td><td>대상 채무의 상환 조건을 조정할 수 있는지</td></tr><tr><th scope="row">진행 기관</th><td>법원</td><td>법원</td><td>신용회복위원회</td></tr><tr><th scope="row">먼저 확인할 사항</th><td>소득, 생계비, 재산, 채무 한도와 성격</td><td>지급불능, 재산, 면책 관련 사정</td><td>연체 상태, 협약 대상 채무, 상환 여력과 제도별 요건</td></tr><tr><th scope="row">유의점</th><td>인가 후에도 변제 이행과 면책 확인 필요</td><td>파산선고와 면책은 별도 판단</td><td>모든 채무가 같은 조건으로 포함되는 것은 아님</td></tr></tbody></table></div><p class="note">핵심 차이를 이해하기 위한 일반 비교입니다. 제도별 구체적인 대상·지원 내용은 최신 공식 안내와 개별 자료로 확인하세요.</p>`) +
       section(head('A USEFUL ORDER', '선택 전에 정리할 순서') + `<div class="grid-3">${card('01', '채무를 종류별로', '금융회사 대출, 카드대금, 개인 간 채무, 보증, 세금 등 채무의 성격을 구분합니다. 연체 기간과 담보 여부도 적어 두세요.')}${card('02', '매달 남는 금액', '실제로 받는 소득과 반드시 필요한 지출을 정리합니다. 일시적인 수입과 앞으로 계속되는 수입을 나누어 살펴보세요.')}${card('03', '진행 중인 문제', '압류·경매·지급명령 등이 있다면 현재 단계와 기한을 확인합니다. 급한 일과 장기적인 채무 해결을 함께 검토해야 합니다.')}</div>`) +
       section(`<div class="reading">${head('OFFICIAL INFORMATION', '공공 상담 제도도 확인할 수 있습니다.')}<p>신용회복위원회는 연체 상황과 상환 여건 등에 따라 여러 채무조정 제도를 안내합니다. 구체적인 지원 요건과 대상 채무, 상담 신청은 공식 홈페이지에서 확인할 수 있습니다.</p><p>민간 사무소의 유료 업무를 의뢰하기 전에 공공기관의 상담·지원 대상 여부를 함께 알아보셔도 됩니다. 지원 가능 범위와 신청 조건은 해당 기관에서 확인하세요.</p><div class="feature-row"><a class="button" href="https://www.ccrs.or.kr/" ${external}>신용회복위원회 공식 안내 <span aria-hidden="true">↗</span></a><a class="button" href="https://www.klac.or.kr/" ${external}>대한법률구조공단 <span aria-hidden="true">↗</span></a></div><p class="note">외부 기관의 공식 서비스로 이동합니다. 본 사무소가 해당 기관의 심사·승인이나 지원 결과를 보장하지 않습니다.</p></div>`) +
-      section(`<div class="grid-2">${card('COURT PROCESS 01', '계속적인 소득이 있다면', '생활을 유지하면서 변제계획을 이행하는 개인회생을 알아보세요.', '/personal-rehabilitation.html', '개인회생 안내')}${card('COURT PROCESS 02', '상환이 어렵다면', '소득·재산과 생활 여건을 바탕으로 개인파산·면책을 알아보세요.', '/personal-bankruptcy.html', '개인파산·면책 안내')}</div>`)
+      section(`<div class="grid-2">${card('COURT PROCESS 01', '계속적인 소득이 있다면', '생활을 유지하면서 변제계획을 이행하는 개인회생을 알아보세요.', '/personal-rehabilitation.html', '개인회생 안내')}${card('COURT PROCESS 02', '상환이 어렵다면', '소득·재산과 생활 여건을 바탕으로 개인파산·면책을 알아보세요.', '/personal-bankruptcy.html', '개인파산·면책 안내')}</div>`) +
+      section(related([['/personal-rehabilitation.html', '개인회생 신청 요건'], ['/personal-bankruptcy.html', '개인파산·면책 신청 요건'], ['/rehabilitation-cost.html', '개인회생 비용과 변제금']]))
+
   },
   {
     file: 'privacy.html',

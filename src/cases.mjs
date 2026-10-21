@@ -1,3 +1,4 @@
+import {kakao, external} from './parts.mjs';
 import {existingCases} from './cases-data.mjs';
 import {render2026Cases} from './cases-2026.mjs';
 
@@ -17,6 +18,6 @@ export function renderCases() {
       <details class="case-details"><summary>사례 자세히 보기<span aria-hidden="true">＋</span></summary><div class="case-story"><p>${esc(c.story)}</p><p class="case-author">${esc(c.author)} <br><span>${esc(c.region)}${c.status ? ' · '+esc(c.status) : ''}</span></p></div></details>
     </article>`).join('')}</div>
     <p class="note case-result-note">기존 홈페이지에 게재된 사례입니다. 개인정보 보호를 위해 이름은 비실명으로 표시합니다. 사례별 결과는 해당 사건의 사정에 따른 것으로, 다른 사건에서 같은 결과를 보장하지 않습니다.</p>
-    <div class="case-next-step"><div><h2>내 상황에서는 어떤 절차가 맞을까요?</h2><p>채무 규모뿐 아니라 소득·재산·생활 여건을 함께 확인합니다.</p></div><a class="button primary" href="/consult.html">내 상황 상담하기 <span aria-hidden="true">↗</span></a></div>
+    <div class="case-next-step"><div><h2>내 상황에서는 어떤 절차가 맞을까요?</h2><p>채무 규모뿐 아니라 소득·재산·생활 여건을 함께 확인합니다.</p></div><a class="button primary" href="${kakao}" ${external}>카카오톡 문의하기 <span aria-hidden="true">↗</span></a></div>
   </div></section>`;
 }
