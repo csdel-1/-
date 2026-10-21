@@ -6,6 +6,7 @@ import {pages} from '../src/content.mjs';
 import {config} from '../src/site-config.mjs';
 import {mapEmbed, naverDirections, naverSearch} from '../src/maps.mjs';
 import {existingCases} from '../src/cases-data.mjs';
+import {cases2026, caseGroups} from '../src/cases-2026.mjs';
 
 // Inspect generated output, including references across pages, without dependencies.
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -127,7 +128,10 @@ try {
   const sitemap = await readFile(resolve(root,'sitemap.xml'),'utf8');
   const locs = all(sitemap,/<loc>([^<]+)<\/loc>/g).map(m => decode(m[1]));
   const expected = indexable.map(p => urlFor(p.file));
-  expect(locs.length === 13 && new Set(locs).size === 13 && expected.every(u => locs.includes(u)) && locs.every(u => expected.includes(u)),'sitemap.xml','13개 색인 URL 정확히 필요: 누락·중복·404 포함 확인');
+  expect(locs.length === indexable.length && new Set(locs).size === indexable.length && expected.every(u => locs.includes(u)) && locs.every(u => expected.includes(u)),'sitemap.xml',`${indexable.length}개 색인 URL 정확히 필요: 누락·중복·404 포함 확인`);
+  const rss = await readFile(resolve(root,'rss.xml'),'utf8');
+  const items = all(rss,/<item>[\s\S]*?<link>([^<]+)<\/link>[\s\S]*?<\/item>/g).map(m => m[1]);
+  expect(items.length > 0 && items.every(u => expected.includes(u)),'rss.xml','RSS 항목은 색인 페이지 주소만 포함');
   expect(/xmlns="http:\/\/www\.sitemaps\.org\/schemas\/sitemap\/0\.9"/.test(sitemap),'sitemap.xml','네임스페이스 오류');
   const robots = await readFile(resolve(root,'robots.txt'),'utf8');
   expect(/^User-agent:\s*\*\s*$/mi.test(robots) && /^Allow:\s*\/\s*$/mi.test(robots) && !/^Disallow:\s*\/\s*$/mi.test(robots),'robots.txt','검색 로봇 공개 설정 오류');
@@ -150,6 +154,14 @@ for(const entry of existingCases){
   const article = caseHtml.match(new RegExp(`<article[^>]*id="${entry.id}"[^>]*>([\\s\\S]*?)</article>`))?.[1] || '';
   for(const key of ['title','story','debtBefore','result','debtBeforeLabel','resultLabel','date','author','region','status']) expect(article.includes(escapeCase(entry[key])),'cases.html',`${entry.id} 원문 ${key} 누락·변경 확인`);
 }
+expect(cases2026.length === 40 && caseGroups.every(g => cases2026.filter(c => c.group === g.key).length === 10),'src/cases-2026.mjs','2026년 사례 40건(유형별 10건) 확인');
+expect(all(caseHtml,/<tr\b[^>]*data-case-year="2026"/g).length === 40,'cases.html','2026년 사례 40건 모두 표시 필요');
+for (const c of cases2026) for (const key of ['job','debts','total','result']) expect(caseHtml.includes(escapeCase(c[key])),'cases.html',`${c.id} ${key} 누락·변경 확인`);
+for (const g of caseGroups) {
+  const guide = docs.get(g.guide.slice(1))?.html || '';
+  expect(all(guide,/<tr\b[^>]*data-case-year="2026"/g).length === 10,g.guide.slice(1),`${g.title} 2026년 사례 10건 필요`);
+  expect(caseHtml.includes(`id="cases-2026-${g.key}"`) && guide.includes(`/cases.html#cases-2026-${g.key}`),g.guide.slice(1),'사례 묶음 연결 확인');
+}
 for(const [file,{html}] of docs)expect(!/토요일|주말/.test(html),file,'사용자가 제외한 주말 안내 재등장');
 expect(location?.ids.has('naver-map') && location?.ids.has('map-status') && /https:\/\/map\.naver\.com\/p\/search\//.test(location?.html || ''),'location.html','실제 네이버 주소 검색·지도 상태 영역 없음');
 for (const file of ['index.html','location.html']) {
@@ -163,8 +175,8 @@ for (const file of ['index.html','location.html']) {
 expect(all(location?.html || '',/<a\b[^>]*>/gi).some(m => attrs(m[0]).href === naverSearch),'location.html','실제 네이버 주소 검색 연결 불일치');
 if (coords) {const marker = new URL(mapEmbed).searchParams.get('marker')?.split(',').map(Number);expect(marker?.[0] === coords.lat && marker?.[1] === coords.lng,'src/maps.mjs','검증된 건물 좌표와 삽입 지도 마커 불일치');}
 const htmlFiles = (await readdir(root)).filter(name => name.endsWith('.html'));
-expect(htmlFiles.length === 14 && htmlFiles.every(name => generated.includes(name)),'사이트 루트','생성 목록 밖 HTML 검토 필요');
-expect(stats.pages === 14 && stats.indexable === 13,'전체 페이지','14개 출력·13개 색인 페이지 필요');
+expect(htmlFiles.length === generated.length && htmlFiles.every(name => generated.includes(name)),'사이트 루트','생성 목록 밖 HTML 검토 필요');
+expect(stats.pages === generated.length && stats.indexable === indexable.length,'전체 페이지',`${generated.length}개 출력·${indexable.length}개 색인 페이지 필요`);
 if (errors.length) {process.stderr.write(`FAIL: ${errors.length}개 문제\n${errors.map(e => '- ' + e).join('\n')}\n`);process.exitCode = 1;}
 else {
   process.stdout.write(`PASS: ${stats.pages} pages (${stats.indexable} indexable + noindex 404)\n`);
