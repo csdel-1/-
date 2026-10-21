@@ -1,12 +1,13 @@
 import {existingCases} from './cases-data.mjs';
+import {render2026Cases} from './cases-2026.mjs';
 
 const esc = value => String(value).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
 const label = type => type === 'rehab' ? '개인회생' : '개인파산·면책';
 
 export function renderCases() {
   const counts = {all:existingCases.length,rehab:existingCases.filter(c => c.type === 'rehab').length,bankruptcy:existingCases.filter(c => c.type === 'bankruptcy').length};
-  return `<section class="section case-section"><div class="container" data-case-browser>
-    <div class="section-head"><div><h2>다시 시작한 이야기</h2></div><p>채무가 생긴 배경과 진행 결과를 <br>함께 살펴보세요.</p></div>
+  return render2026Cases() + `<section class="section case-section"><div class="container" data-case-browser>
+    <div class="section-head"><div><h2>다시 시작한 이야기</h2></div><p>기존 홈페이지에 소개한 사례 ${counts.all}건입니다. <br>채무가 생긴 배경과 진행 결과를 함께 살펴보세요.</p></div>
     <div class="case-filters" role="group" aria-label="성공사례 종류" hidden>${[['all','전체'],['rehab','개인회생'],['bankruptcy','개인파산·면책']].map(([type,name]) => `<button type="button" data-case-filter="${type}" aria-pressed="${type === 'all'}" aria-controls="case-list">${name}<span>${counts[type]}</span></button>`).join('')}</div>
     <div class="case-list-heading"><p class="case-count" role="status" aria-live="polite">전체 ${counts.all}건</p><p>최근 사례부터 표시합니다.</p></div>
     <div class="case-grid" id="case-list">${[...existingCases].reverse().map(c => `<article class="case-card" id="${esc(c.id)}" data-case-type="${esc(c.type)}">

@@ -6,6 +6,7 @@ import {pages} from '../src/content.mjs';
 import {config} from '../src/site-config.mjs';
 import {mapEmbed, naverDirections, naverSearch} from '../src/maps.mjs';
 import {existingCases} from '../src/cases-data.mjs';
+import {cases2026, caseGroups} from '../src/cases-2026.mjs';
 
 // Inspect generated output, including references across pages, without dependencies.
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -152,6 +153,14 @@ const escapeCase = text=>String(text).replaceAll('&','&amp;').replaceAll('<','&l
 for(const entry of existingCases){
   const article = caseHtml.match(new RegExp(`<article[^>]*id="${entry.id}"[^>]*>([\\s\\S]*?)</article>`))?.[1] || '';
   for(const key of ['title','story','debtBefore','result','debtBeforeLabel','resultLabel','date','author','region','status']) expect(article.includes(escapeCase(entry[key])),'cases.html',`${entry.id} 원문 ${key} 누락·변경 확인`);
+}
+expect(cases2026.length === 40 && caseGroups.every(g => cases2026.filter(c => c.group === g.key).length === 10),'src/cases-2026.mjs','2026년 사례 40건(유형별 10건) 확인');
+expect(all(caseHtml,/<tr\b[^>]*data-case-year="2026"/g).length === 40,'cases.html','2026년 사례 40건 모두 표시 필요');
+for (const c of cases2026) for (const key of ['job','debts','total','result']) expect(caseHtml.includes(escapeCase(c[key])),'cases.html',`${c.id} ${key} 누락·변경 확인`);
+for (const g of caseGroups) {
+  const guide = docs.get(g.guide.slice(1))?.html || '';
+  expect(all(guide,/<tr\b[^>]*data-case-year="2026"/g).length === 10,g.guide.slice(1),`${g.title} 2026년 사례 10건 필요`);
+  expect(caseHtml.includes(`id="cases-2026-${g.key}"`) && guide.includes(`/cases.html#cases-2026-${g.key}`),g.guide.slice(1),'사례 묶음 연결 확인');
 }
 for(const [file,{html}] of docs)expect(!/토요일|주말/.test(html),file,'사용자가 제외한 주말 안내 재등장');
 expect(location?.ids.has('naver-map') && location?.ids.has('map-status') && /https:\/\/map\.naver\.com\/p\/search\//.test(location?.html || ''),'location.html','실제 네이버 주소 검색·지도 상태 영역 없음');
