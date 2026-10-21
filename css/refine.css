@@ -510,6 +510,114 @@ th {
   font-size: 15.5px;
 }
 
+/* ---------- 상황별 안내 ---------- */
+.key-points {
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--gold);
+  border-radius: 8px;
+  background: #fff;
+  padding: 34px 40px 30px;
+  max-width: 960px;
+}
+.key-points h2 {
+  font-size: clamp(22px, 1.8vw, 26px);
+  margin: 0 0 16px;
+}
+.key-points ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 12px;
+}
+.key-points li,
+.check-list li {
+  position: relative;
+  padding-left: 30px;
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--text);
+}
+.key-points li::before,
+.check-list li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 0.62em;
+  width: 13px;
+  height: 7px;
+  border-left: 2px solid var(--gold);
+  border-bottom: 2px solid var(--gold);
+  transform: rotate(-45deg);
+}
+.check-list {
+  list-style: none;
+  padding: 0;
+  margin: 18px 0 22px;
+  display: grid;
+  gap: 8px;
+}
+.guide-grid {
+  margin-top: 8px;
+}
+.guide-card-link {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.guide-card-link h3 {
+  margin: 0;
+}
+.guide-card-link p {
+  margin: 0 0 6px;
+}
+.guide-card-link .text-link {
+  margin-top: auto;
+  align-self: flex-start;
+}
+.guide-card-link:hover {
+  border-color: var(--gold);
+  box-shadow: 0 10px 28px #102a480f;
+}
+.guide-related {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 26px;
+  margin-top: 40px;
+  padding-top: 26px;
+  border-top: 1px solid var(--line);
+}
+.guide-related > span {
+  font-size: 14px;
+  color: var(--muted);
+  margin-right: 4px;
+}
+.guide-related a {
+  font-size: 15.5px;
+  font-weight: 600;
+  color: var(--ink);
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 2px;
+}
+.reading strong {
+  color: var(--ink);
+}
+
+.page-meta {
+  margin-top: 26px;
+  font-size: 14px;
+  letter-spacing: 0;
+  color: #b9c7d8;
+}
+
+/* 바닥글 다섯 칸 */
+.footer-grid {
+  grid-template-columns: 1.15fr 0.7fr 0.75fr 0.85fr 1.05fr;
+  gap: 4%;
+}
+
 /* ---------- 기존 규칙보다 구체적인 선택자로 남아 있던 작은 글자 정리 ---------- */
 .ref-practice .note,
 .case-result-note {
@@ -558,6 +666,10 @@ th {
 @media (max-width: 1040px) {
   .main-nav a {
     font-size: 17px;
+  }
+  .footer-grid {
+    grid-template-columns: 1.2fr 1fr 1fr 1fr;
+    gap: 30px;
   }
 }
 
@@ -700,5 +812,21 @@ th {
   }
   .breadcrumbs {
     font-size: 13.5px;
+  }
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 28px 22px;
+  }
+  .key-points {
+    padding: 24px 20px 22px;
+  }
+  .key-points li,
+  .check-list li {
+    font-size: 16px;
+  }
+  .guide-related {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
   }
 }

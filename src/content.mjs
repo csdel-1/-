@@ -1,22 +1,12 @@
 import {officeMap} from './maps.mjs';
 import {renderCases} from './cases.mjs';
-const tel = 'tel:01064294797';
-const kakao = 'https://open.kakao.com/o/swmhzizg';
+import {guidePages, guideCards} from './guides.mjs';
+import {tel, kakao, external, courtR, courtB, section, head, card, faq, note, source} from './parts.mjs';
 const naver = 'https://map.naver.com/p/search/' + encodeURIComponent('대전 서구 둔산중로78번길 40');
 // Destination selected and verified in the real Naver Maps address result.
 const directions = 'https://map.naver.com/p/directions/-/3zyUmy,2zX8SV,' + encodeURIComponent('대전 서구 둔산중로78번길 40') + ',,ADDRESS_POI/-/transit?c=15.00,0,0,0,dh';
-const external = 'target="_blank" rel="noopener noreferrer"';
-const courtR = 'https://slb.scourt.go.kr/rel/guide/personal_r/index.jsp';
-const courtB = 'https://slb.scourt.go.kr/rel/guide/personal_b/index.jsp';
-const section = (html, extra = '') => `<section class="section ${extra}"><div class="container">${html}</div></section>`;
-// The first argument used to print an English eyebrow above each heading; it is kept only as a readable label in the source.
-const head = (label, title, text = '') => `<div class="section-head"><div><h2>${title}</h2></div>${text ? `<p>${text}</p>` : ''}</div>`;
-const card = (num, title, text, href = '', label = '자세히 알아보기') => `<article class="card"><span class="card-no">${num}</span><h3>${title}</h3><p>${text}</p>${href ? `<a class="text-link" href="${href}">${label} <span aria-hidden="true">↗</span></a>` : ''}</article>`;
-const faq = (items) => `<div class="faq-list">${items.map(([q, a]) => `<details><summary>${q}</summary><div><p>${a}</p></div></details>`).join('')}</div>`;
-const note = '<p class="note">이 페이지는 제도에 관한 일반 안내입니다. 신청 가능 여부, 변제금, 소요 기간과 결과는 개별 사정 및 법원의 판단에 따라 달라집니다.</p>';
-const source = (url, label) => `<p class="note">공식 제도 안내: <a href="${url}" ${external}>${label} <span aria-hidden="true">↗</span></a> · 실제 신청 시 최신 기준과 관할 법원의 안내를 확인합니다.</p>`;
 
-export const pages = [
+const corePages = [
   {
     file: 'services.html',
     title: '대전 개인회생·개인파산 업무 안내 | 법무사 안상재 사무소',
@@ -25,6 +15,7 @@ export const pages = [
     heading: '지금의 상황에 맞는<br>출발점을 찾습니다.',
     intro: '제도를 먼저 정하기보다, 생활과 채무를 먼저 살핍니다. 소득이 있는지, 어떤 재산과 채무가 있는지에 따라 필요한 절차가 달라집니다.',
     body: section(head('FIND YOUR WAY', '회생과 파산, 무엇부터 알아봐야 할까요?', '이름이 비슷해도 목적과 진행 방식은 다릅니다. 현재의 상환 능력과 앞으로의 생활을 함께 살펴보는 것이 시작입니다.') + `<div class="grid-3">${card('01', '개인회생', '계속적인 수입을 바탕으로 생활에 필요한 비용과 채무를 함께 고려해 변제계획을 세우는 법원 절차입니다.', '/personal-rehabilitation.html', '개인회생 안내')}${card('02', '개인파산·면책', '채무를 갚기 어려운 상태와 재산·생활 여건을 확인하고, 파산 및 면책을 각각 심사받는 절차입니다.', '/personal-bankruptcy.html', '개인파산·면책 안내')}${card('03', '채무조정 제도 비교', '금융회사 채무의 상환 조건 조정 등 다른 선택지도 살펴봅니다. 연체 상태와 채무 종류에 따라 검토 범위가 달라집니다.', '/debt-adjustment.html', '제도 비교하기')}</div>`) +
+      section(head('BY SITUATION', '상황별 개인회생 안내', '직장인, 자영업자, 프리랜서, 투자 손실 채무처럼 자주 묻는 상황을 따로 정리했습니다.') + guideCards()) +
       section(head('A CAREFUL START', '신청보다 먼저 확인할 네 가지') + `<div class="grid-2">${card('01', '계속되는 소득', '급여·사업·연금 등 실제 수입과 지출을 확인합니다. 매달 금액이 다르다면 최근 흐름을 함께 살펴봅니다.')}${card('02', '현재 보유한 재산', '예금, 임대차보증금, 차량, 부동산, 보험 등 종류별로 정리합니다. 명의나 담보 여부도 확인이 필요합니다.')}${card('03', '빠짐없는 채무', '대출뿐 아니라 카드대금, 보증채무, 개인 간 채무, 세금 등 성격이 다른 채무를 구분합니다.')}${card('04', '지금 진행 중인 절차', '독촉, 지급명령, 압류, 경매와 법원 서류의 기한을 확인합니다. 받은 문서는 보관해 상담 때 함께 살펴봅니다.')}</div>`) +
       section(`<div class="reading">${head('SCOPE OF ASSISTANCE', '법무사 업무의 범위를 분명하게 안내합니다.')}<p>법무사 안상재 사무소는 상담을 통해 사실관계를 정리하고, 법령이 정한 범위에서 법원 제출 서류 작성과 제출 등 필요한 절차를 안내합니다. 법무사와 변호사의 업무 범위는 다르며, 소송대리나 별도 자격이 필요한 업무는 구분하여 설명합니다.</p><p>사업체의 채무라고 해서 모두 개인회생에 해당하지는 않습니다. 개인사업자와 법인은 구별되며, 일반회생·법인회생·법인파산 등 별도 절차가 필요한 사안은 상담에서 업무 범위와 검토 사항을 먼저 확인합니다.</p>${note}</div>`)
   },
@@ -37,6 +28,7 @@ export const pages = [
     intro: '수입은 있지만 빚을 감당하기 어려울 때, 현재의 생활과 앞으로의 변제를 함께 살펴봅니다. 개인회생 상담의 시작은 정확한 현황 확인입니다.',
     body: section(`<div class="grid-2"><div>${head('UNDERSTANDING THE PROCESS', '개인회생은 어떤 제도인가요?')}<p class="lead">계속적인 수입이 있는 개인채무자가 법원이 정한 변제계획을 이행하고, 이후 면책 여부를 판단받는 절차입니다.</p></div><div class="reading"><p>소득이 있다는 이유만으로 충분하지도, 채무가 많다는 이유만으로 불가능하지도 않습니다. 생활을 유지하는 데 필요한 비용, 보유 재산, 채무의 종류와 발생 경위를 함께 확인해야 합니다. 매달 갚을 수 있는 금액을 현실적으로 살펴야 계획도 오래 유지할 수 있습니다.</p><p>개인회생을 알아보고 계신다면, 먼저 본인 명의의 채무와 현재 수입을 간단히 적어 보세요. 정규직 여부만으로 결론을 내리기보다 실제로 이어지는 수입과 이를 설명할 자료가 있는지부터 확인하는 편이 좋습니다.</p></div></div>`) +
       section(head('BEFORE YOU APPLY', '가능성을 살피는 네 가지 기준', '광고에 나온 탕감률이나 다른 사람의 월 변제금보다, 본인의 자료가 중요합니다.') + `<div class="grid-2">${card('01', '수입의 지속성', '급여, 사업소득, 연금 등 수입이 앞으로도 계속될 가능성을 살펴봅니다. 프리랜서나 자영업자라면 매출과 실제 소득의 차이를 설명할 자료가 필요합니다.')}${card('02', '생활비와 부양 상황', '가구 구성, 실제 부양 여부, 주거비·의료비 등 지출을 확인합니다. 지출한 금액이 모두 그대로 인정되는 것은 아니므로 근거를 정리합니다.')}${card('03', '재산과 담보', '임대차보증금, 예금, 보험, 차량과 부동산 등을 확인합니다. 담보대출과 경매가 있다면 일반 신용채무와 구분해 검토해야 합니다.')}${card('04', '채무와 이전 절차', '무담보채무 10억 원 이하·담보부채무 15억 원 이하의 법정 한도와 지급불능 상태 또는 우려 여부를 검토합니다. 모든 채권자와 과거 면책 이력도 확인합니다.')}</div>`) +
+      section(head('BY SITUATION', '내 상황에 맞춰 더 알아보기', '직업과 채무가 생긴 사정에 따라 준비할 자료와 확인할 점이 달라집니다.') + guideCards()) +
       section(`<div class="reading">${head('A PLAN YOU CAN MAINTAIN', '변제금은 한 가지 숫자로 정해지지 않습니다.')}<p>월급에서 생활비를 단순히 빼는 계산만으로 개인회생 결과를 예상하기는 어렵습니다. 인정되는 소득과 생계비, 재산의 가치, 채무 성격 등이 변제계획에 반영됩니다. 같은 월수입이어도 검토 결과는 달라질 수 있습니다.</p><p>상담 때는 감당 가능한 월 지출을 솔직하게 설명해 주세요. 의료비나 주거비처럼 계속 발생하는 지출이 있다면 금액과 사유를 메모하면 도움이 됩니다.</p><p>현재 생활을 유지하면서 변제를 이어갈 수 있는지도 살펴야 합니다. 인가 이후에도 정해진 납부 일정과 법원의 안내를 확인해야 하며, 변제계획을 이행하지 못하면 절차 유지에 문제가 생길 수 있습니다.</p><a class="text-link" href="/rehabilitation-cost.html">개인회생 비용과 변제금 구분하기 <span aria-hidden="true">↗</span></a></div>`) +
       section(head('THE ROAD AHEAD', '접수부터 면책까지, 단계별로 살핍니다.') + `<ol class="steps"><li><h3>현황 확인과 서류 준비</h3><p>소득·재산·채무 자료를 정리하고 신청서와 변제계획안을 준비합니다. 빠진 채무가 없는지 함께 확인합니다.</p></li><li><h3>신청과 심사·보정</h3><p>관할 법원에 신청한 뒤 추가 설명이나 서류 제출 요구가 있으면 기한에 맞춰 대응합니다. 접수만으로 인가가 확정되지는 않습니다.</p></li><li><h3>개시와 변제계획 인가</h3><p>법원의 심사와 정해진 절차를 거쳐 변제계획 인가 여부가 결정됩니다. 출석 및 납부 안내를 확인합니다.</p></li><li><h3>변제 이행과 면책 확인</h3><p>정해진 계획을 이행하고 면책 절차를 확인합니다. 인가와 면책은 서로 다른 단계입니다.</p></li></ol><a class="text-link" href="/rehabilitation-process.html">개인회생 절차 자세히 보기 <span aria-hidden="true">↗</span></a>`) +
       section(head('QUESTIONS, ANSWERED', '상담 전에 많이 묻는 내용') + faq([
@@ -172,3 +164,5 @@ export const pages = [
     body: section(`<div class="reading"><p class="kicker">적용일 2026년 10월 16일</p><h2>홈페이지에서 직접 받는 정보</h2><p>이 홈페이지에는 회원가입, 상담 입력 양식, 파일 업로드 기능과 자체 방문 분석 도구를 설치하지 않았습니다. 이름·전화번호·채무 내용 등을 홈페이지 양식으로 전송하거나 별도의 상담 데이터베이스에 저장하는 기능이 없습니다.</p><p>웹사이트를 제공하는 호스팅 사업자는 서비스 운영과 보안 등을 위해 접속 정보를 처리할 수 있습니다. GitHub Pages의 정보 처리에 대해서는 <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" ${external}>GitHub 개인정보 처리방침</a>을 확인하실 수 있습니다.</p><h2>전화·카카오톡 상담</h2><p>전화 연결 버튼은 이용 기기의 통화 기능을 열고, 카카오톡 문의 버튼은 외부 오픈채팅으로 이동합니다. 통화나 채팅을 시작하면 해당 방식으로 전달하신 정보가 상담 과정에서 처리될 수 있습니다.</p><p>초기 문의에는 상담 질문과 연락 가능한 시간 등 필요한 정보만 전달해 주세요. 계좌·금융 비밀번호와 인증번호는 상담 단계와 관계없이 보내지 마세요. 신분증·주민등록번호가 포함된 서류 등 구체적인 사건 자료는 필요한 범위와 안전한 전달 방법을 확인한 뒤 준비해 주세요.</p><p>카카오톡은 외부 사업자의 서비스로, 계정·채팅·기기 등의 정보 처리에는 해당 사업자의 정책이 적용됩니다. <a href="https://www.kakao.com/policy/privacy" ${external}>카카오 개인정보 처리방침</a>에서 확인할 수 있습니다.</p><h2>지도와 외부 링크</h2><p>홈페이지의 지도는 OpenStreetMap의 외부 지도를 불러옵니다. 지도 표시 과정에서 해당 서비스로 접속 정보가 전달될 수 있습니다. <a href="https://osmfoundation.org/wiki/Privacy_Policy" target="_blank" rel="noopener noreferrer">OpenStreetMap 재단 개인정보 처리방침</a>을 확인하실 수 있습니다.</p><p>네이버 지도 버튼을 누르면 외부 서비스가 열립니다. 지도에서 출발지·현재 위치를 입력하거나 위치 권한을 허용하는 경우 해당 서비스의 정책과 기기 설정이 적용됩니다. <a href="https://policy.naver.com/policy/privacy.html" ${external}>네이버 개인정보 처리방침</a>을 참고해 주세요.</p><h2>상담 정보 관련 문의</h2><p>상담 과정에서 전달한 개인정보의 확인·정정·삭제 등 처리에 관한 문의는 법무사 안상재 사무소로 연락해 주세요. 실제 사건을 수임한 경우에는 사건 처리와 법령상 보존 의무 등 적용되는 사유를 함께 확인하여 안내합니다. 이 페이지에서 별도의 일률적인 상담자료 보관 기간을 약속하지 않습니다.</p><p><strong>문의</strong> 법무사 안상재 사무소<br><a href="${tel}">010-6429-4797</a><br>대전 서구 둔산중로78번길 40 봉화빌딩 402호</p><h2>기능이 변경되는 경우</h2><p>향후 상담 양식이나 방문 분석 등 개인정보 처리에 영향을 주는 기능을 추가하거나 변경할 때에는 실제 처리 내용에 맞춰 안내를 갱신합니다.</p></div>`)
   }
 ];
+
+export const pages = [...corePages, ...guidePages];
