@@ -17,7 +17,7 @@ export const guideCards = () => `<div class="grid-2 guide-grid">${guideIndex.map
 export const guidePages = [
   {
     file: 'rehabilitation-employee.html',
-    title: '직장인 개인회생, 회사에 알려질까? 급여·퇴직금 확인 | 법무사 안상재 사무소',
+    title: '직장인 개인회생, 회사에 알려질까? | 대전 법무사 안상재',
     description: '직장인 개인회생은 월급에서 생계비를 뺀 금액을 원칙적으로 3년간 갚는 절차입니다. 회사에 알려지는 경우, 급여 압류 중지, 퇴직금 계산, 계약직·맞벌이·공무원이 확인할 점을 정리했습니다.',
     label: '직장인 개인회생',
     published: '2026-10-21',
@@ -42,7 +42,7 @@ export const guidePages = [
   },
   {
     file: 'rehabilitation-business.html',
-    title: '자영업자 개인회생, 사업 유지·폐업 후 신청 안내 | 법무사 안상재 사무소',
+    title: '자영업자 개인회생, 사업 유지·폐업 후 신청 | 대전 법무사 안상재',
     description: '가게를 계속 운영하면서 개인회생을 신청할 수 있는지, 폐업했다면 무엇이 달라지는지 정리했습니다. 영업소득 계산, 상가 보증금·차량 등 사업 재산, 세금·직원 임금처럼 면책되지 않는 채무까지 확인하세요.',
     label: '자영업자 개인회생',
     published: '2026-10-21',
@@ -67,7 +67,7 @@ export const guidePages = [
   },
   {
     file: 'rehabilitation-freelancer.html',
-    title: '프리랜서·일용직 개인회생, 소득 증명 방법 안내 | 법무사 안상재 사무소',
+    title: '프리랜서·일용직 개인회생 소득 증명 | 대전 법무사 안상재',
     description: '3.3% 사업소득, 배달·대리운전 같은 플랫폼 수입, 일용직처럼 소득이 들쭉날쭉해도 개인회생을 검토할 수 있습니다. 어떤 자료로 소득을 증명하고 변제금은 어떻게 정하는지 정리했습니다.',
     label: '프리랜서·일용직 개인회생',
     published: '2026-10-21',
@@ -90,7 +90,7 @@ export const guidePages = [
   },
   {
     file: 'investment-loss-rehabilitation.html',
-    title: '주식·코인 투자 손실 개인회생, 청산가치 기준 안내 | 법무사 안상재 사무소',
+    title: '주식·코인 투자 손실 개인회생, 청산가치 기준 | 대전 법무사 안상재',
     description: '주식·가상화폐 투자로 생긴 빚도 개인회생을 검토할 수 있습니다. 회생법원의 투자 손실금 청산가치 기준, 남은 잔고 처리, 거래내역 준비, 리딩방·사기 피해 채무와 개인파산에서 주의할 점을 정리했습니다.',
     label: '주식·코인 투자 손실 채무',
     published: '2026-10-21',

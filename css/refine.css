@@ -208,6 +208,17 @@ em {
   color: var(--text-2);
 }
 
+/* 두 번째 카드는 첫 화면과 같은 사진이라, 책 부분을 가까이 잘라 다른 장면으로 보이게 합니다 */
+.ref-practice-card:nth-child(2) .ref-practice-photo > img {
+  width: 165%;
+  height: 165%;
+  left: auto;
+  top: auto;
+  right: -4%;
+  bottom: -30%;
+  object-position: 85% 72%;
+}
+
 /* 진행 순서 */
 .ref-process-grid h3 {
   font-size: 19px;
