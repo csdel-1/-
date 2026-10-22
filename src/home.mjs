@@ -1,4 +1,5 @@
 import {officeMap, naverDirections} from './maps.mjs';
+import {kakao, external} from './parts.mjs';
 
 const drawings = {
   plan: '<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V2h6v2M9 9h6M9 13h6M9 17h3"/>',
@@ -19,7 +20,7 @@ const drawings = {
 const icon = name => `<svg class="ref-icon" viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">${drawings[name] || drawings.check}</svg>`;
 
 export const home = {
-  file: 'index.html', label: '홈', title: '대전 개인회생·개인파산 상담 | 법무사 안상재 사무소',
+  file: 'index.html', label: '홈', updated: '2026-10-22', title: '대전 개인회생·개인파산 상담 | 법무사 안상재 사무소',
   description: '대전 개인회생과 개인파산, 나에게 맞는 절차부터 차분히. 신청 조건·비용·준비 서류와 상담 안내. 대전 둔산동 봉화빌딩 402호, 법무사 안상재 사무소 010-6429-4797.',
   body: `
 <section class="home-hero ref-hero" aria-labelledby="home-title">
@@ -28,7 +29,7 @@ export const home = {
     <h1 id="home-title">빚 때문에 막막한 오늘, <br><em>다시 시작할 방법을</em><br>함께 찾겠습니다.</h1>
     <p class="hero-subtitle">개인회생 · 개인파산 상담</p>
     <p class="hero-description">지금의 상황을 먼저 듣고, <br>필요한 절차와 준비를 차분히 안내합니다.</p>
-    <div class="hero-actions"><a class="button primary" href="/consult.html">상담 문의 <span aria-hidden="true">↗</span></a><a class="button outline" href="tel:01064294797">010-6429-4797 <span aria-hidden="true">↗</span></a></div>
+    <div class="hero-actions"><a class="button primary" href="${kakao}" ${external}>카카오톡 문의하기 <span aria-hidden="true">↗</span></a><a class="button outline" href="tel:01064294797">010-6429-4797 <span aria-hidden="true">↗</span></a></div>
     <div class="ref-hero-flags"><span>${icon('listen')}개인별 상황 확인</span><span>${icon('pin')}대전 둔산동 상담</span><span>${icon('document')}절차·비용 안내</span></div>
   </div></div>
   <figure class="hero-visual"><img src="/assets/renewal/legal-hero-v2.webp" srcset="/assets/renewal/legal-hero-v2-768.webp 768w, /assets/renewal/legal-hero-v2.webp 1536w" sizes="(max-width:760px) 100vw, 56vw" width="1536" height="1024" fetchpriority="high" alt="짙은 남색 배경에 놓인 황동 저울과 법률 서적"></figure>
@@ -38,11 +39,11 @@ export const home = {
   <a href="/personal-rehabilitation.html"><span class="ref-quick-icon">${icon('plan')}</span><span class="ref-quick-copy"><small>꾸준한 수입이 있다면</small><strong>개인회생</strong></span><span class="ref-quick-arrow" aria-hidden="true">↗</span></a>
   <a href="/personal-bankruptcy.html"><span class="ref-quick-icon">${icon('sunrise')}</span><span class="ref-quick-copy"><small>갚을 여력이 부족하다면</small><strong>개인파산·면책</strong></span><span class="ref-quick-arrow" aria-hidden="true">↗</span></a>
   <a href="/debt-adjustment.html"><span class="ref-quick-icon">${icon('compare')}</span><span class="ref-quick-copy"><small>나에게 맞는 방법은</small><strong>채무조정 비교</strong></span><span class="ref-quick-arrow" aria-hidden="true">↗</span></a>
-  <a href="/consult.html"><span class="ref-quick-icon">${icon('chat')}</span><span class="ref-quick-copy"><small>편한 방법으로 시작하는</small><strong>상담 안내</strong></span><span class="ref-quick-arrow" aria-hidden="true">↗</span></a>
+  <a href="${kakao}" ${external}><span class="ref-quick-icon">${icon('chat')}</span><span class="ref-quick-copy"><small>편한 방법으로 시작하는</small><strong>카카오톡 문의하기</strong></span><span class="ref-quick-arrow" aria-hidden="true">↗</span></a>
 </div></section>
 
 <section class="section ref-concerns"><div class="container ref-concern-layout">
-  <div class="ref-section-title"><h2>이런 고민으로 <br>찾아오십니다.</h2><p>상황이 다르면, 필요한 방법도 다릅니다. <br>지금 가장 걱정되는 일부터 들려주세요.</p><a class="text-link" href="/consult.html">내 상황 상담하기 <span aria-hidden="true">↗</span></a></div>
+  <div class="ref-section-title"><h2>이런 고민으로 <br>찾아오십니다.</h2><p>상황이 다르면, 필요한 방법도 다릅니다. <br>지금 가장 걱정되는 일부터 들려주세요.</p><a class="text-link" href="${kakao}" ${external}>카카오톡 문의하기 <span aria-hidden="true">↗</span></a></div>
   <div class="ref-concern-grid">
     <article class="ref-concern-card">${icon('debt')}<div><h3>갚아도 줄지 않는 빚</h3><p>수입과 생활비를 함께 살펴 <br>감당할 수 있는 계획을 검토합니다.</p></div></article>
     <article class="ref-concern-card">${icon('business')}<div><h3>이어가야 하는 사업과 생활</h3><p>실제 소득과 재산, 채무를 정리해 <br>가능한 절차를 살펴봅니다.</p></div></article>
