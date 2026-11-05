@@ -182,7 +182,10 @@ for (const [file,{html}] of docs) {
 const location = docs.get('location.html');
 const caseHtml = docs.get('cases.html')?.html || '';
 expect(existingCases.length === 20 && existingCases.filter(c=>c.type==='rehab').length === 12 && existingCases.filter(c=>c.type==='bankruptcy').length === 8,'cases.html','기존 사례 20건(회생12·파산8) 누락 확인');
-expect(all(caseHtml, /<article\b[^>]*data-case-type=/g).length === 20,'cases.html','정적 HTML에 기존 사례 20건 필요');
+expect(all(caseHtml, /<article\b[^>]*data-case-type=/g).length === existingCases.length+cases2026.length,'cases.html','통합 목록의 모든 사례가 종류별 필터 대상이어야 함');
+expect(all(caseHtml, /\bdata-case-browser(?:\s|>)/g).length === 1 && all(caseHtml,/\bid="case-list"/g).length === 1,'cases.html','성공사례 목록과 필터 영역 하나로 통합 필요');
+const displayedCaseOrder=all(caseHtml,/<article\b[^>]*id="([^"]+)"[^>]*data-case-type=/g).map(m=>m[1]);
+expect(JSON.stringify(displayedCaseOrder)===JSON.stringify([...existingCases].reverse().map(c=>c.id).concat(cases2026.map(c=>c.id))),'cases.html','기존 다시 시작한 이야기 사례를 통합 목록 맨 위에 배치해야 함');
 const escapeCase = text=>String(text).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
 for(const entry of existingCases){
   const article = caseHtml.match(new RegExp(`<article[^>]*id="${entry.id}"[^>]*>([\\s\\S]*?)</article>`))?.[1] || '';

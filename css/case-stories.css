@@ -1,9 +1,11 @@
 .case-narrative-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;align-items:start}
 .case-narrative-card{min-width:0;padding:30px;border:1px solid var(--line);border-top:3px solid #b18d55;border-radius:6px;background:#fff;box-shadow:0 8px 26px #102a4805}
-.case-narrative-card h4{font-family:var(--sans);font-size:21px;font-weight:650;line-height:1.5;letter-spacing:-.025em;color:var(--ink);margin:0 0 10px;overflow-wrap:anywhere}
+.case-narrative-card h3,.case-narrative-card h4{font-family:var(--sans);font-size:21px;font-weight:650;line-height:1.5;letter-spacing:-.025em;color:var(--ink);margin:0 0 10px;min-height:0;overflow-wrap:anywhere}
 .case-narrative-debts{font-size:14px!important;color:var(--muted);line-height:1.7!important;margin-bottom:20px!important;padding-bottom:18px;border-bottom:1px solid var(--line)}
 .case-narrative-story p{font-size:16px;line-height:1.85;margin:0;color:var(--text-2);word-break:keep-all;overflow-wrap:break-word}
 .case-narrative-story p+p{margin-top:14px}
+.case-narrative-card .case-author{margin-top:18px;color:#213e5d;font-size:13px;font-weight:600}
+.case-narrative-card .case-author span{color:#66788b;font-size:12px;font-weight:400}
 .case-narrative-facts{margin:23px 0 0;padding:18px 20px;background:#f5f6f8;border-radius:4px;display:grid;grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr);gap:18px}
 .case-narrative-facts>div{min-width:0}
 .case-narrative-facts>div+div{padding-left:18px;border-left:1px solid #dce2e9}
@@ -12,4 +14,4 @@
 .case-narrative-facts>div:last-child dd{color:#8b6128}
 .guide-cases .case-narrative-grid{margin-top:24px}
 @media(max-width:1000px){.case-narrative-grid{gap:18px}.case-narrative-card{padding:25px}.case-narrative-facts{grid-template-columns:1fr}.case-narrative-facts>div+div{padding:12px 0 0;border-left:0;border-top:1px solid #dce2e9}}
-@media(max-width:760px){.case-narrative-grid{grid-template-columns:1fr;gap:18px}.case-narrative-card{padding:24px 22px}.case-narrative-card h4{font-size:20px}.case-narrative-story p{font-size:16px;line-height:1.8}.case-narrative-facts{padding:16px 18px;gap:12px}.case-narrative-debts{margin-bottom:18px!important}}
+@media(max-width:760px){.case-narrative-grid{grid-template-columns:1fr;gap:18px}.case-narrative-card{padding:24px 22px}.case-narrative-card h3,.case-narrative-card h4{font-size:20px}.case-narrative-story p{font-size:16px;line-height:1.8}.case-narrative-facts{padding:16px 18px;gap:12px}.case-narrative-debts{margin-bottom:18px!important}}
