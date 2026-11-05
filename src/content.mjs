@@ -12,7 +12,7 @@ const directions = 'https://map.naver.com/p/directions/-/3zyUmy,2zX8SV,' + encod
 
 const corePages = [
   {
-    file: 'services.html',
+    file: 'services.html', updated: '2026-11-05',
     title: '대전 개인회생·개인파산 업무 안내 | 법무사 안상재 사무소',
     description: '개인회생, 개인파산·면책, 채무조정의 차이를 살펴보세요. 대전 둔산동 법무사 안상재 사무소에서 현재 소득·재산·채무 상황에 맞는 절차를 확인합니다.',
     label: '업무 안내', eyebrow: 'OUR PRACTICE',
@@ -25,7 +25,7 @@ const corePages = [
   },
   {
     file: 'personal-rehabilitation.html',
-    published: '2026-10-16', updated: '2026-10-22',
+    published: '2026-10-16', updated: '2026-11-05',
     title: '대전 개인회생 신청자격·조건 안내 | 법무사 안상재 사무소',
     description: '대전 개인회생 신청자격과 조건, 소득·재산·생계비 및 변제계획을 살펴보세요. 직장인·자영업자의 준비서류, 독촉·압류 관련 확인 사항과 진행 절차 안내. 법무사 안상재 사무소.',
     label: '개인회생', eyebrow: 'PERSONAL REHABILITATION',
@@ -46,7 +46,7 @@ const corePages = [
   },
   {
     file: 'personal-bankruptcy.html',
-    published: '2026-10-16', updated: '2026-10-22',
+    published: '2026-10-16', updated: '2026-11-05',
     title: '대전 개인파산 신청자격·면책 안내 | 법무사 안상재 사무소',
     description: '대전 개인파산 신청자격, 지급불능 상태와 파산면책 절차를 알아보세요. 실직·질병·폐업 등 상황별 검토, 소득·재산 준비자료와 비면책채무 안내. 법무사 안상재 사무소.',
     label: '개인파산·면책', eyebrow: 'PERSONAL BANKRUPTCY & DISCHARGE',
@@ -68,16 +68,16 @@ const corePages = [
       section(related([['/bankruptcy-discharge.html', '파산과 면책의 차이'], ['/personal-rehabilitation.html', '개인회생 신청 요건'], ['/debt-adjustment.html', '채무조정 제도 비교']]))
   },
   {
-    file: 'cases.html',
+    file: 'cases.html', updated: '2026-11-05',
     title: '개인회생·개인파산 성공사례 | 대전 법무사 안상재 사무소',
-    description: '2026년 개인회생 사례 40건과 기존 개인회생 12건·개인파산 8건 사례를 직장인·자영업자·투자 손실·프리랜서 등 유형별로 확인하세요. 채무액과 월 변제금, 결과를 함께 소개합니다. 사건별 결과는 다를 수 있습니다.',
+    description: '개인회생·개인파산 사례를 직장인·자영업자·투자 손실·프리랜서 등 유형별 이야기로 살펴보세요. 채무액과 월 변제금, 결과를 함께 소개합니다. 사건별 결과는 다를 수 있습니다.',
     label: '성공사례', eyebrow: 'A NEW CHAPTER',
     heading: '각자의 사정에 맞춰,<br>다시 시작한 이야기.',
-    intro: '같은 채무액이라도 소득과 재산, 생활 여건에 따라 결과가 달라집니다. 2026년 사례 40건과 기존 사례 20건을 유형별로 살펴보세요.',
+    intro: '같은 채무액이라도 소득과 재산, 생활 여건에 따라 결과가 달라집니다. 직업과 채무가 생긴 상황, 진행 결과를 사례별 이야기로 살펴보세요.',
     body: renderCases()
   },
   {
-    file: 'consult.html',
+    file: 'consult.html', updated: '2026-11-05',
     title: '개인회생·개인파산 상담 문의·방문 예약 | 법무사 안상재 사무소',
     description: '대전 개인회생·개인파산 상담 전화 010-6429-4797. 법무사 안상재 사무소 전화·카카오톡 문의, 상담 전 준비와 개인정보 안내. 방문 전 예약해 주세요.',
     label: '상담 안내', eyebrow: 'LET’S TALK',

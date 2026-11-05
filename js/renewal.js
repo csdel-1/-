@@ -39,13 +39,11 @@ document.querySelectorAll('[data-case-browser]').forEach(browser=>{
   filters.hidden=false;
   buttons.forEach(button=>button.addEventListener('click',()=>{
     const type=button.dataset.caseFilter;
-    let shown=0;
     cards.forEach(card=>{
       card.hidden=type!=='all'&&card.dataset.caseType!==type;
-      if(!card.hidden)shown++;
     });
     buttons.forEach(item=>item.setAttribute('aria-pressed',String(item===button)));
     const name={all:'전체',rehab:'개인회생',bankruptcy:'개인파산·면책'}[type];
-    count.textContent=`${name} ${shown}건`;
+    count.textContent=`${name} 사례`;
   }));
 });
