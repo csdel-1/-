@@ -1,3 +1,4 @@
+import {caseStories2026} from './case-stories-2026.mjs';
 // 2026년 개인회생 사례 40건. 사무소가 2026-10-21 실제 처리 사건이라고 확인해 제공한 자료입니다.
 // 직업·주요 채무·총 채무액·결과 문구는 받은 내용을 그대로 옮기고 띄어쓰기·표기만 다듬었으며, 이름·지역 등 개인을 알아볼 수 있는 정보는 받지 않았습니다.
 // 변제기간은 결과에 따로 적지 않은 경우 36개월 기준입니다.
@@ -65,15 +66,15 @@ export const cases2026 = caseGroups.flatMap(group => rows[group.key].map(([job, 
   id: `c26-${group.key}-${String(i + 1).padStart(2, '0')}`, group: group.key, job, debts, total, result, year: '2026년'
 })));
 
-const table = (key, label) => `<div class="case-table-wrap"><table class="case-table"><caption class="sr-only">${esc(label)} 개인회생 사례 (2026년)</caption><thead><tr><th scope="col">직업</th><th scope="col">주요 채무</th><th scope="col">채무액</th><th scope="col">결과</th></tr></thead><tbody>${cases2026.filter(c => c.group === key).map(c => `<tr id="${esc(c.id)}" data-case-year="2026"><th scope="row">${esc(c.job)}</th><td data-label="주요 채무">${esc(c.debts)}</td><td data-label="채무액">${esc(c.total)}</td><td data-label="결과">${esc(c.result)}</td></tr>`).join('')}</tbody></table></div>`;
+const storyCards = (key, label) => `<div class="case-narrative-grid" aria-label="${esc(label)} 사례 이야기">${cases2026.filter(c => c.group === key).map(c => `<article class="case-narrative-card" id="${esc(c.id)}" data-case-year="2026"><h4>${esc(c.job)}</h4><p class="case-narrative-debts">주요 채무 · ${esc(c.debts)}</p><div class="case-narrative-story">${caseStories2026[c.id].map(text => `<p>${esc(text)}</p>`).join('')}</div><dl class="case-narrative-facts"><div><dt>채무액</dt><dd>${esc(c.total)}</dd></div><div><dt>결과</dt><dd>${esc(c.result)}</dd></div></dl></article>`).join('')}</div>`;
 const caseNote = '<p class="note case-result-note">2026년에 진행한 개인회생 사건입니다. 개인정보 보호를 위해 직업과 채무 유형만 적었습니다. 변제기간은 따로 적지 않은 경우 36개월이며, 결과는 각 사건의 소득·재산·부양가족 등 사정에 따른 것으로 다른 사건에서 같은 결과를 보장하지 않습니다.</p>';
 
 // 성공사례 페이지: 네 가지 유형별 전체 40건
 export function render2026Cases() {
   return `<section class="section cases-2026" aria-labelledby="cases-2026-title"><div class="container">
-    <div class="section-head"><div><h2 id="cases-2026-title">2026년 개인회생 사례 ${cases2026.length}건</h2></div><p>직업과 채무가 생긴 사정별로 나누어 정리했습니다. 비슷한 상황을 먼저 찾아보세요.</p></div>
-    <nav class="case-group-nav" aria-label="사례 유형">${caseGroups.map(g => `<a href="#cases-2026-${g.key}">${g.title} <span>${rows[g.key].length}</span></a>`).join('')}</nav>
-    ${caseGroups.map(g => `<div class="case-group" id="cases-2026-${g.key}"><div class="case-group-head"><h3>${g.title}</h3><a class="text-link" href="${g.guide}">${g.title} 안내 보기 <span aria-hidden="true">↗</span></a></div>${table(g.key, g.title)}</div>`).join('')}
+    <div class="section-head"><div><h2 id="cases-2026-title">2026년 개인회생 사례</h2></div><p>직업과 채무가 생긴 사정별로 나누어 정리했습니다. 비슷한 상황을 먼저 찾아보세요.</p></div>
+    <nav class="case-group-nav" aria-label="사례 유형">${caseGroups.map(g => `<a href="#cases-2026-${g.key}">${g.title}</a>`).join('')}</nav>
+    ${caseGroups.map(g => `<div class="case-group" id="cases-2026-${g.key}"><div class="case-group-head"><h3>${g.title}</h3><a class="text-link" href="${g.guide}">${g.title} 안내 보기 <span aria-hidden="true">↗</span></a></div>${storyCards(g.key, g.title)}</div>`).join('')}
     ${caseNote}
   </div></section>`;
 }
@@ -81,5 +82,5 @@ export function render2026Cases() {
 // 상황별 안내 페이지: 해당 유형 10건
 export function renderGroupCases(key) {
   const group = caseGroups.find(g => g.key === key);
-  return `<div class="section-head"><div><h2>2026년 ${group.title} 개인회생 사례</h2></div><p>사무소에서 2026년에 진행한 같은 유형의 사건입니다.</p></div>${table(key, group.title)}${caseNote}<a class="text-link" href="/cases.html#cases-2026-${key}">사례 전체 보기 <span aria-hidden="true">↗</span></a>`;
+  return `<div class="section-head"><div><h2>2026년 ${group.title} 개인회생 사례</h2></div><p>사무소에서 2026년에 진행한 같은 유형의 사건입니다.</p></div>${storyCards(key, group.title)}${caseNote}<a class="text-link" href="/cases.html#cases-2026-${key}">사례 전체 보기 <span aria-hidden="true">↗</span></a>`;
 }

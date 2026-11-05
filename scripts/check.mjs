@@ -8,6 +8,8 @@ import {kakao, tel} from '../src/parts.mjs';
 import {mapEmbed, naverDirections, naverSearch} from '../src/maps.mjs';
 import {existingCases} from '../src/cases-data.mjs';
 import {cases2026, caseGroups} from '../src/cases-2026.mjs';
+import {caseStories2026} from '../src/case-stories-2026.mjs';
+import {detailThemes} from '../src/detail-themes.mjs';
 
 // Inspect generated output, including references across pages, without dependencies.
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -113,8 +115,6 @@ for (const [file,{html,ids}] of docs) {
       const h1 = html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i)?.[1] || '';
       expect(article.headline === plain(h1.replace(/<br\s*\/?>/gi,' ')),file,'Article 제목과 보이는 H1 불일치');
       expect(article.author?.['@id'] === office['@id'] && article.publisher?.['@id'] === office['@id'] && article.mainEntityOfPage?.['@id'] === page['@id'],file,'Article 제공 주체·페이지 연결 오류');
-      const display = html.match(/<p class="page-meta">([\s\S]*?)<\/p>/)?.[1] || '';
-      expect(display.includes(`datetime="${modified}"`) && display.includes('콘텐츠 제공: 법무사 안상재 사무소'),file,'표시 날짜·제공 주체와 Article 불일치');
     }
     expect(!graph.some(n => /Review|AggregateRating/.test(n['@type'] || '') || n.aggregateRating || n.review),file,'미검증 리뷰·평점 schema 금지');
     if (file !== 'index.html') {const crumbs = nodes('BreadcrumbList')[0]?.itemListElement;expect(nodes('BreadcrumbList').length === 1 && crumbs?.length === 2 && crumbs[0].position === 1 && crumbs[0].item === config.siteUrl + '/' && crumbs[1].position === 2 && crumbs[1].item === canonical,file,'BreadcrumbList 오류');}
@@ -125,6 +125,12 @@ for (const [file,{html,ids}] of docs) {
   expect(html.includes('tel:01064294797'),file,'실제 전화 연결 없음');
   expect(!html.includes('${'),file,'완성되지 않은 템플릿 문자열');
   const contactLinks = all(html,/<a\b([^>]*)>([\s\S]*?)<\/a>/gi).map(m=>({...attrs(m[1]),label:plain(m[2])}));
+  expect(!html.includes('class="page-meta"') && !html.includes('콘텐츠 제공:'),file,'삭제 요청한 콘텐츠 제공 표시 재등장');
+  if (detailThemes[file]) {
+    const heroLinks=contactLinks.filter(a=>a.class === 'detail-hero-link');
+    expect(heroLinks.length === detailThemes[file].tags.length,file,'상단 바로가기 누락');
+    for(const tag of detailThemes[file].tags)expect(heroLinks.some(a=>a.href===tag.href && a.label.startsWith(tag.label)),file,`상단 바로가기 연결 오류: ${tag.label}`);
+  }
   const headerContact = contactLinks.filter(a=>a.class === 'header-cta');
   expect(headerContact.length === 1 && headerContact[0].href === kakao && headerContact[0].label.startsWith('카카오톡 문의하기'),file,'헤더는 카카오톡으로 직접 연결 필요');
   const mobileContact = html.match(/<div class="mobile-contact"[^>]*>([\s\S]*?)<\/div>/)?.[1] || '';
@@ -183,11 +189,21 @@ for(const entry of existingCases){
   for(const key of ['title','story','debtBefore','result','debtBeforeLabel','resultLabel','date','author','region','status']) expect(article.includes(escapeCase(entry[key])),'cases.html',`${entry.id} 원문 ${key} 누락·변경 확인`);
 }
 expect(cases2026.length === 40 && caseGroups.every(g => cases2026.filter(c => c.group === g.key).length === 10),'src/cases-2026.mjs','2026년 사례 40건(유형별 10건) 확인');
-expect(all(caseHtml,/<tr\b[^>]*data-case-year="2026"/g).length === 40,'cases.html','2026년 사례 40건 모두 표시 필요');
+expect(all(caseHtml,/<article\b[^>]*data-case-year="2026"/g).length === 40,'cases.html','입력된 개인회생 사례 이야기 누락 확인');
+expect(Object.keys(caseStories2026).length === cases2026.length && Object.keys(caseStories2026).every(id=>cases2026.some(c=>c.id===id)),'src/case-stories-2026.mjs','기존 사례와 이야기 ID 일치 필요');
+for (const c of cases2026) {
+  const paragraphs=caseStories2026[c.id] || [];
+  expect(paragraphs.length===2 && paragraphs.every(p=>typeof p==='string' && p.trim().length>15),'src/case-stories-2026.mjs',`${c.id} 이야기 문단 누락`);
+  const numbers=text=>[...text.matchAll(/\d[\d,]*(?:\.\d+)?/g)].map(m=>m[0].replaceAll(',',''));
+  const sourceNumbers=new Set(numbers([c.job,c.debts,c.total,c.result].join(' ')));
+  expect(numbers(paragraphs.join(' ')).every(n=>sourceNumbers.has(n)),'src/case-stories-2026.mjs',`${c.id} 원문에 없는 수치 확인`);
+  for(const p of paragraphs)expect(caseHtml.includes(escapeCase(p)),'cases.html',`${c.id} 이야기 출력 누락`);
+}
+expect(!/(?:사례\s*(?:40|20)\s*건|전체\s*20\s*건)/.test(caseHtml),'cases.html','삭제 요청한 사례 총건수 문구 재등장');
 for (const c of cases2026) for (const key of ['job','debts','total','result']) expect(caseHtml.includes(escapeCase(c[key])),'cases.html',`${c.id} ${key} 누락·변경 확인`);
 for (const g of caseGroups) {
   const guide = docs.get(g.guide.slice(1))?.html || '';
-  expect(all(guide,/<tr\b[^>]*data-case-year="2026"/g).length === 10,g.guide.slice(1),`${g.title} 2026년 사례 10건 필요`);
+  expect(all(guide,/<article\b[^>]*data-case-year="2026"/g).length === 10,g.guide.slice(1),`${g.title} 연결 사례 이야기 누락 확인`);
   expect(caseHtml.includes(`id="cases-2026-${g.key}"`) && guide.includes(`/cases.html#cases-2026-${g.key}`),g.guide.slice(1),'사례 묶음 연결 확인');
 }
 for(const [file,{html}] of docs)expect(!/토요일|주말/.test(html),file,'사용자가 제외한 주말 안내 재등장');

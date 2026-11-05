@@ -48,7 +48,7 @@ node scripts/serve.mjs
 
 ## 검색 노출 관리
 
-- 사이트맵(`sitemap.xml`)과 RSS(`rss.xml`)는 빌드할 때 함께 만들어집니다. 주요 내용을 실제로 수정한 페이지의 `updated`만 수정일로 바꾸고, 기존 `published`는 보존하세요. 전역 `siteUpdated`는 기존 배포의 기본 날짜이므로 재빌드할 때마다 바꾸지 않습니다. 표시 날짜·Article·WebPage·사이트맵의 일치는 `npm run check`로 검사합니다.
+- 사이트맵(`sitemap.xml`)과 RSS(`rss.xml`)는 빌드할 때 함께 만들어집니다. 주요 내용을 실제로 수정한 페이지의 `updated`만 수정일로 바꾸고, 기존 `published`는 보존하세요. 전역 `siteUpdated`는 기존 배포의 기본 날짜이므로 재빌드할 때마다 바꾸지 않습니다. Article·WebPage·사이트맵 날짜의 일치는 `npm run check`로 검사합니다. 콘텐츠 제공·수정일 표시는 사용자 요청에 따라 화면에 출력하지 않습니다.
 - 네이버 서치어드바이저에는 사이트맵과 함께 RSS(`https://criceto.co.kr/rss.xml`)도 제출합니다.
 - 배포 후 `node scripts/indexnow.mjs`를 실행하면 바뀐 주소를 IndexNow로 네이버·빙에 알립니다. 루트의 키 파일(`a5c71fa9a1b77007aa2893584c051d30.txt`)은 지우지 마세요.
 - 화면에 보이지 않는 키워드 목록이나 지역 이름만 바꾼 페이지는 검색엔진 지침상 스팸으로 처리될 수 있어 만들지 않습니다.
