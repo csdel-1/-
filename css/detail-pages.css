@@ -68,7 +68,9 @@ body:is([data-page="services"], [data-page="personal-rehabilitation"], [data-pag
   grid-column: 1;
   grid-row: 3;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  width: 100%;
+  max-width: 340px;
   gap: 8px;
   margin-top: 25px;
 }
@@ -76,6 +78,7 @@ body:is([data-page="services"], [data-page="personal-rehabilitation"], [data-pag
 body:is([data-page="services"], [data-page="personal-rehabilitation"], [data-page="personal-bankruptcy"], [data-page="consult"]) .detail-hero-tags > a {
   display: inline-flex;
   align-items: center;
+  justify-content: space-between;
   min-height: 48px;
   padding: 11px 18px;
   gap: 14px;
